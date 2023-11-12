@@ -2,247 +2,183 @@
 const mainContainer = document.querySelector('.eo-page-container');
 let componentCurrentlyBeingEdited = null;
 let widgets = [];
+
 defineNewWidget('Heading', 'fas fa-heading', 'text', {
-    content: {
-        innerText: {
-            type: 'textarea',
-            label: 'Text',
-            value: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.',
-            options: null,
-            group: 'content'
-        },
-        textAlign: {
-            type: 'dropdown',
-            label: 'Text Align',
-            value: 'left',
-            options: ['left', 'center', 'right', 'justify'],
-            group: 'style'
-        },
-    },
-    style: {
-        fontSize: {
-            type: 'number',
-            label: 'Font Size',
-            value: '16',
-            options: null,
-            group: 'style'
-        },
-        fontFamily: {
-            type: 'dropdown',
-            label: 'Font Family',
-            value: 'Arial',
-            options: ['Arial', 'Times New Roman', 'Courier New', 'Verdana', 'Georgia', 'Palatino', 'Garamond', 'Bookman', 'Comic Sans MS', 'Trebuchet MS', 'Arial Black', 'Impact'],
-            group: 'style'
-        },
-        color: {
-            type: 'color',
-            label: 'Color',
-            value: '#000000',
-            options: null,
-            group: 'style'
-        }
-    }
+    content: ['innerText', 'textAlign'],
+    style: ['fontSize', 'fontFamily', 'color', 'backgroundColor', 'borderType', 'borderSize', 'borderRadius', 'padding', 'margin']
 }, 'heading');
 
 defineNewWidget('Image', 'fas fa-image', 'image', {
-    content: {
-        src: {
-            type: 'text',
-            label: 'Image Source',
-            value: '',
-            options: null,
-            group: 'attribute'
-        }
-    },
-    style: {
-        width: {
-            type: 'text',
-            label: 'Width',
-            value: '200',
-            options: null,
-            group: 'style',
-        },
-        height: {
-            type: 'text',
-            label: 'Height',
-            value: '300',
-            options: null,
-            group: 'style'
-        }
-    }
+    content: ['src'],
+    style: ['width', 'height']
 }, 'image');
 
 defineNewWidget('Container', 'fas fa-box', 'container', {
-    content: {
-        width: {
-            type: 'text',
-            label: 'Width',
-            value: '100%',
-            options: null
-        },
-        minHeight: {
-            type: 'text',
-            label: 'Min Height',
-            value: '100px',
-            options: null,
-            group: 'style'
-        },
-        flexDirection: {
-            type: 'dropdown',
-            label: 'Flex Direction',
-            value: 'row',
-            options: ['row', 'column', 'row-reverse', 'column-reverse'],
-            group: 'style'
-        },
-        justifyContent: {
-            type: 'dropdown',
-            label: 'Justify Content',
-            value: 'flex-start',
-            options: ['flex-start', 'flex-end', 'center', 'space-between', 'space-around', 'space-evenly'],
-            group: 'style'
-        },
-        alignItems: {
-            type: 'dropdown',
-            label: 'Align Items',
-            value: 'flex-start',
-            options: ['flex-start', 'flex-end', 'center', 'baseline', 'stretch'],
-            group: 'style'
-        },
-        flexWrap: {
-            type: 'dropdown',
-            label: 'Flex Wrap',
-            value: 'nowrap',
-            options: ['nowrap', 'wrap', 'wrap-reverse'],
-            group: 'style'
-        },
-        gap: {
-            type: 'text',
-            label: 'Gap',
-            value: '0',
-            options: null,
-            group: 'style'
-        },
-    },
-    style: {
-        backgroundColor: {
-            type: 'color',
-            label: 'Background Color',
-            value: '#ffffff',
-            options: null,
-            group: 'style'
-        },
-        border: {
-            type: 'text',
-            label: 'Border',
-            value: 'none',
-            options: null,
-            group: 'style'
-        },
-        borderRadius: {
-            type: 'text',
-            label: 'Border Radius',
-            value: '0',
-            options: null,
-            group: 'style',
-        },
-        padding: {
-            type: 'text',
-            label: 'Padding',
-            value: '0',
-            options: null,
-            group: 'style'
-        },
-        margin: {
-            type: 'text',
-            label: 'Margin',
-            value: '0',
-            options: null,
-            group: 'style'
-        },
-    }
+    content: ['width', 'minHeight', 'flexDirection', 'justifyContent', 'alignItems', 'flexWrap', 'gap'],
+    style: ['backgroundColor', 'border', 'borderRadius', 'padding', 'margin']
 }, 'container');
 
 defineNewWidget('Button', 'fas fa-link', 'button', {
-    content: {
-        innerText: {
-            type: 'textarea',
-            label: 'Text',
-            value: 'Button',
-            options: null,
-            group: 'content'
-        },
-        textAlign: {
-            type: 'dropdown',
-            label: 'Text Align',
-            value: 'left',
-            options: ['left', 'center', 'right', 'justify'],
-            group: 'style'
-        },
-    },
-    style: {
-        fontSize: {
-            type: 'number',
-            label: 'Font Size',
-            value: '16',
-            options: null,
-            group: 'style'
-        },
-        fontFamily: {
-            type: 'dropdown',
-            label: 'Font Family',
-            value: 'Arial',
-            options: ['Arial', 'Times New Roman', 'Courier New', 'Verdana', 'Georgia', 'Palatino', 'Garamond', 'Bookman', 'Comic Sans MS', 'Trebuchet MS', 'Arial Black', 'Impact'],
-            group: 'style'
-        },
-        color: {
-            type: 'color',
-            label: 'Color',
-            value: '#000000',
-            options: null,
-            group: 'style'
-        },
-        backgroundColor: {
-            type: 'color',
-            label: 'Background Color',
-            value: '#ffffff',
-            options: null,
-            group: 'style'
-        },
-        border: {
-            type: 'text',
-            label: 'Border',
-            value: 'none',
-            options: null,
-            group: 'style'
-        },
-        borderRadius: {
-            type: 'text',
-            label: 'Border Radius',
-            value: '0',
-            options: null,
-            group: 'style',
-        },
-        padding: {
-            type: 'text',
-            label: 'Padding',
-            value: '0',
-            options: null,
-            group: 'style'
-        },
-        margin: {
-            type: 'text',
-            label: 'Margin',
-            value: '0',
-            options: null,
-            group: 'style'
-        },
-    }
+    content: ['innerText', 'href'],
+    style: ['fontSize', 'fontFamily', 'color', 'backgroundColor', 'borderType', 'borderSize', 'borderRadius', 'padding', 'margin']
 }, 'button');
 
 const components = {
     'text': componentBoilerplate('heading', textComponentHTML()),
     'image': componentBoilerplate('image', imageComponentHTML()),
     'button': componentBoilerplate('button', buttonComponentHTML()),
+}
+
+const settings = {
+    'innerText': {
+        type: 'textarea',
+        label: 'Heading',
+        value: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.',
+        options: null,
+        group: 'content'
+    }, 
+    'textAlign': {
+        type: 'dropdown',
+        label: 'Text Align',
+        value: 'left',
+        options: [{value: 'left', label: 'Left'}, {value: 'center', label: 'Center'}, {value: 'right', label: 'Right'}, {value: 'justify', label: 'Justify'}],
+        group: 'style'
+    },
+    'src': {
+        type: 'text',
+        label: 'Image Source',
+        value: '',
+        options: null,
+        group: 'attribute'
+    },
+    'width': {
+        type: 'text',
+        label: 'Width',
+        value: '200',
+        options: null,
+        group: 'style',
+    },
+    'height': {
+        type: 'text',
+        label: 'Height',
+        value: '300',
+        options: null,
+        group: 'style'
+    },
+    'fontSize': {
+        type: 'number',
+        label: 'Font Size',
+        value: '16',
+        options: null,
+        group: 'style'
+    },
+    'fontFamily': {
+        type: 'dropdown',
+        label: 'Font Family',
+        value: 'Arial',
+        options: [{value: 'Arial', label: 'Arial'}, {value: 'Helvetica', label: 'Helvetica'}, {value: 'Times New Roman', label: 'Times New Roman'}, {value: 'Times', label: 'Times'}, {value: 'Courier New', label: 'Courier New'}, {value: 'Courier', label: 'Courier'}, {value: 'Verdana', label: 'Verdana'}, {value: 'Georgia', label: 'Georgia'}, {value: 'Palatino', label: 'Palatino'}, {value: 'Garamond', label: 'Garamond'}, {value: 'Bookman', label: 'Bookman'}, {value: 'Comic Sans MS', label: 'Comic Sans MS'}, {value: 'Trebuchet MS', label: 'Trebuchet MS'}, {value: 'Arial Black', label: 'Arial Black'}, {value: 'Impact', label: 'Impact'}],
+        group: 'style'
+    },
+    'color': {
+        type: 'color',
+        label: 'Color',
+        value: '#000000',
+        options: null,
+        group: 'style'
+    },
+    'backgroundColor': {
+        type: 'color',
+        label: 'Background Color',
+        value: '#ffffff',
+        options: null,
+        group: 'style'
+    },
+    'borderType': {
+        type: 'dropdown',
+        label: 'Border Type',
+        value: 'none',
+        options: [{value: 'none', label: 'None'}, {value: 'solid', label: 'Solid'}, {value: 'dotted', label: 'Dotted'}, {value: 'dashed', label: 'Dashed'}, {value: 'double', label: 'Double'}, {value: 'groove', label: 'Groove'}, {value: 'ridge', label: 'Ridge'}, {value: 'inset', label: 'Inset'}, {value: 'outset', label: 'Outset'}],
+        group: 'style'
+    },
+    'borderSize': {
+        type: 'text',
+        label: 'Border Size',
+        value: '0',
+        options: null,
+        group: 'style',
+        showUnitsDropdown: true,
+        showAllSides: true,
+    },
+    'borderRadius': {
+        type: 'text',
+        label: 'Border Radius',
+        value: '0',
+        options: null,
+        group: 'style',
+        showUnitsDropdown: true,
+        showAllSides: true,
+    },
+    'padding': {
+        type: 'text',
+        label: 'Padding',
+        value: '0',
+        options: null,
+        group: 'style',
+        showUnitsDropdown: true,
+        showAllSides: true,
+    },
+    'margin': {
+        type: 'text',
+        label: 'Margin',
+        value: '0',
+        options: null,
+        group: 'style',
+        showUnitsDropdown: true,
+        showAllSides: true,
+    },
+    'flexDirection': {
+        type: 'dropdown',
+        label: 'Flex Direction',
+        value: 'row',
+        options: [{value: 'row', label: 'Row'}, {value: 'row-reverse', label: 'Row Reverse'}, {value: 'column', label: 'Column'}, {value: 'column-reverse', label: 'Column Reverse'}],
+        group: 'style'
+    },
+    'justifyContent': {
+        type: 'dropdown',
+        label: 'Justify Content',
+        value: 'flex-start',
+        options: [{value: 'flex-start', label: 'Flex Start'}, {value: 'flex-end', label: 'Flex End'}, {value: 'center', label: 'Center'}, {value: 'space-between', label: 'Space Between'}, {value: 'space-around', label: 'Space Around'}, {value: 'space-evenly', label: 'Space Evenly'}],
+        group: 'style'
+    },
+    'alignItems': {
+        type: 'dropdown',
+        label: 'Align Items',
+        value: 'flex-start',
+        options: [{value: 'flex-start', label: 'Flex Start'}, {value: 'flex-end', label: 'Flex End'}, {value: 'center', label: 'Center'}, {value: 'baseline', label: 'Baseline'}, {value: 'stretch', label: 'Stretch'}],
+        group: 'style'
+    },
+    'flexWrap': {
+        type: 'dropdown',
+        label: 'Flex Wrap',
+        value: 'nowrap',
+        options: [{value: 'nowrap', label: 'No Wrap'}, {value: 'wrap', label: 'Wrap'}, {value: 'wrap-reverse', label: 'Wrap Reverse'}],
+        group: 'style'
+    },
+    'gap': {
+        type: 'text',
+        label: 'Gap',
+        value: '0',
+        options: null,
+        group: 'style',
+        showUnitsDropdown: true,
+    },
+    'href': {
+        type: 'text',
+        label: 'Link',
+        value: '#',
+        options: null,
+        group: 'attribute'
+    }
 }
 
 displayWidgets();
@@ -687,6 +623,7 @@ function buildWidgetSettingsMenu(component) {
 
     const type = getComponentType(component);
     const settings = getWidgetSettings(type);
+    console.log(settings);
     const sidebarSettingsSelector = '.eo-sidebar-settings-tab-content#[tab]';
     const contentSettings = settings.content;
     let contentSettingsHTML = '';
@@ -712,16 +649,12 @@ function buildWidgetSettingsMenu(component) {
     document.querySelector(styleTab).innerHTML = styleSettingsHTML;
 }
 
-
-
-
 function buildSetting(settingAction, setting, component) {
 
     const settingGroup = setting.group;
     const settingType = setting.type;
     const settingLabel = setting.label;
-    // const settingValue = getComponentSettingValue(settingAction, component) ? getComponentSettingValue(settingAction, component) : setting.value;
-    const settingValue = getWidgetCurrentValue(settingAction, component) ? getWidgetCurrentValue(settingAction, component) : setting.value;
+    const settingValue = getWidgetCurrentValue(settingAction) ? getWidgetCurrentValue(settingAction) : setting.value;
     const settingOptions = setting.options; 
 
     switch(settingType) {
@@ -740,26 +673,11 @@ function buildSetting(settingAction, setting, component) {
 
 }
 
-function getWidgetCurrentValue(settingAction, component) {
+function getWidgetCurrentValue(settingAction) {
 
-    let group = null;
-    const type = getComponentType(component);
-    const settings = getWidgetSettings(type);    
-    const contentSettings = settings.content;
-    const styleSettings = settings.style;
+    const settingGroup = settings[settingAction].group;
 
-    // check if the setting is in the content group
-    if(contentSettings[settingAction]) {
-        group = contentSettings[settingAction].group;
-    } else if(styleSettings[settingAction]) {
-        group = styleSettings[settingAction].group;
-    }
-
-    if(!group) {
-        return null;
-    }
-
-    switch(group) {
+    switch(settingGroup) {
         case 'content':
             return getContent(settingAction);
         case 'style':
@@ -796,13 +714,13 @@ function buildNumberSetting(action, label, value, group) {
 function buildDropdownSetting(action, label, value, options, group) {
 
     let optionsHTML = '';
-
-    options.forEach((option) => {
-        if(option === value) {
-            optionsHTML += `<option value="${option}" selected>${option}</option>`;
+   
+    Object.keys(options).forEach((option) => {
+        if(options[option].value === value) {
+            optionsHTML += `<option value="${options[option].value}" selected>${options[option].label}</option>`;
             return;
         }
-        optionsHTML += `<option value="${option}">${option}</option>`;
+        optionsHTML += `<option value="${options[option].value}">${options[option].label}</option>`;
     })
 
     return `
@@ -890,7 +808,8 @@ document.addEventListener('input', (e) => {
 
 
 function updateStyle(setting, value) {
-    componentCurrentlyBeingEdited.style[setting] = value;
+   
+    componentCurrentlyBeingEdited.style[setting] = value.toString();
 }
 
 function updateContent(setting, value) {
@@ -953,7 +872,22 @@ function getWidgets() {
 }
 
 function getWidgetSettings(widgetType) {
-    return widgets.find(widget => widget.type === widgetType).settings;
+    const widgetSettings = widgets.find(widget => widget.type === widgetType).settings;
+    
+    widgetSettings.content = {};
+    widgetSettings.style = {};
+
+    Object.keys(settings).forEach((setting) => {
+        const settingGroup = settings[setting].group;
+        if(settingGroup === 'content') {
+            widgetSettings.content[setting] = settings[setting];
+        } else if(settingGroup === 'style') {
+            widgetSettings.style[setting] = settings[setting];
+        }
+    })
+
+    return widgetSettings;
+
 }
 
 function displayWidgets() {

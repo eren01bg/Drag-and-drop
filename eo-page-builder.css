@@ -354,12 +354,22 @@ i {
     display: none;
 }
 
+.eo-sidebar .eo-sidebar-settings input, .eo-sidebar .eo-sidebar-settings textarea {
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    outline: none;
+    resize: none;
+}
+
 .eo-sidebar[data-view="settings"] .eo-sidebar-settings {
     display: flex;
     flex-direction: column;
     gap: 10px;
     padding: 10px;
 }
+
 
 .eo-sidebar .eo-sidebar-settings .eo-sidebar-settings-tabs {
     display: flex;
