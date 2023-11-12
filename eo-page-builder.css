@@ -1,0 +1,416 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+
+.eo-page-container {
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    max-width: 1320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    margin: 0 auto;
+    gap: 20px;
+}
+
+i {
+    pointer-events: none;
+}
+
+.eo-page-container * {
+    transition: all ease-in-out 0.15s;
+}
+
+
+.eo-page-container .hidden {
+    opacity: 0;
+}
+
+.eo-page-container .eo-page-add-first {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px dashed #ccc;
+    padding: 20px;
+    transition: all ease-in-out 0.3s;
+}
+
+.eo-page-container .eo-page-add-first .add-first-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #e6f7ff;
+    border: 1px solid #91d5ff;
+    color: #1890ff;
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all ease-in-out 0.3s;
+}
+
+.eo-page-container .eo-page-add-first .add-first-btn:hover {
+    background-color: #91d5ff;
+    color: #fff;
+}
+
+.eo-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    min-height: 100px;
+    padding: 10px;
+}
+
+.eo-container .add-component-btn {
+    display: none;
+}
+
+.eo-container.empty {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px dashed #ccc;
+    padding: 20px;
+}
+
+.eo-container.dragover {
+    background-color: #e6f7ff;
+    border: 2px dashed #91d5ff;
+}
+
+.eo-container.dragover .add-component-btn {
+    display: none !important;
+}
+
+.eo-container.empty .add-component-btn {
+    width: 50px;
+    height: 50px;
+    outline: none;
+    color: lightgray;
+    background-color: transparent;
+    border: none;
+    font-size: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all ease-in-out 0.3s;
+}
+
+.eo-container.empty .add-component-btn:hover {
+    color: #1890ff;
+}
+
+.eo-container:hover {
+    border: 2px solid #1890ff;
+}
+
+.eo-container:hover .eo-container-controls {
+    display: flex;
+}
+
+.eo-container .eo-container-controls {
+    display: none;
+    flex-direction: row;
+    gap: 10px;
+    margin-bottom: 10px;
+    position: absolute;
+    top: -2rem;
+    background-color: #1890ff;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.eo-container .eo-container-controls button {
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all ease-in-out 0.1s;
+    background-color: #e6f7ff;
+    border: 1px solid #91d5ff;
+    color: #1890ff;
+}
+
+.eo-container .eo-container-controls button:hover {
+    background-color: #91d5ff;
+    color: #fff;
+}
+
+.eo-container .eo-container-controls button[data-action="drag"] {
+    cursor: grab;
+}
+
+.eo-container.dragging {
+    opacity: 0.5;
+}
+
+.eo-container.dragging .eo-container-controls button[data-action="drag"] {
+    cursor: grabbing;
+}
+
+.eo-container .eo-container-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.eo-container .eo-container-content .eo-component .eo-component-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.drag-in-process .eo-container-content .eo-component .eo-component-content * {
+    pointer-events: none;
+}
+
+.eo-container .eo-container-content .eo-component .eo-component-content:hover{
+    border: 2px solid #1890ff;
+}
+
+
+.eo-container .eo-container-content .eo-component .eo-component-content .edit-component-btn {
+    display: none;
+}
+
+.eo-container .eo-container-content .eo-component .eo-component-content:hover .edit-component-btn {
+    display: flex;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translate(-50%, -50%);
+    width: 25px;
+    height: 25px;
+    border-radius: 5px;
+    background-color: #1890ff;
+    color: #fff;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+}
+
+.eo-container .eo-container-content .eo-component .eo-component-content:hover .edit-component-btn:hover {
+    background-color: #fff;
+    color: #1890ff;
+    border: 1px solid #1890ff;
+}
+
+
+
+
+/* Sidebar */
+
+.eo-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    z-index: 999;
+    width: 300px;
+    height: 100%;
+    background-color: #001529;
+    color: #fff;
+    overflow-y: auto;
+    transition: all ease-in-out 0.3s;
+}
+
+.eo-sidebar.hidden {
+    transform: translateX(-100%);
+}
+
+.eo-sidebar.show {
+    transform: translateX(0);
+}
+
+.eo-sidebar .eo-sidebar-controls {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.eo-sidebar .eo-sidebar-controls .go-back-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.eo-sidebar .eo-sidebar-controls button {
+    width: 25px;
+    height: 25px;
+    border-radius: 5px;
+    background-color: #e6f7ff;
+    border: 1px solid #91d5ff;
+    color: #1890ff;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all ease-in-out 0.3s;
+}
+
+.eo-sidebar .eo-sidebar-controls .eo-sidebar-hide-btn {
+    margin-left: auto;
+}
+
+.eo-sidebar-show {
+    position: fixed;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);    
+    display: none;
+}
+
+.eo-sidebar-show button {
+    width: 50px;
+    height: 50px;
+    background-color: #e6f7ff;
+    border: 1px solid #91d5ff;
+    color: #1890ff;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all ease-in-out 0.3s;
+}
+
+.eo-sidebar-show button:hover {
+    background-color: #91d5ff;
+    color: #fff;
+}
+
+.eo-sidebar .elements {
+    display: none;
+}
+
+.eo-sidebar[data-view="elements"] .elements {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.eo-sidebar .elements .element {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 25px;
+    gap: 10px;
+    flex: 1 1 100px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all ease-in-out 0.3s;
+    background-color: #fff;
+    color: #000;
+}
+
+.eo-sidebar .elements .element p {
+    pointer-events: none;
+}
+
+.eo-sidebar .elements .element:hover {
+    background-color: #001529;
+    color: #fff;
+    scale: 1.05;
+    border: 1px solid #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.eo-sidebar .eo-sidebar-settings {
+    display: none;
+}
+
+.eo-sidebar[data-view="settings"] .eo-sidebar-settings {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+}
+
+.eo-sidebar .eo-sidebar-settings .eo-sidebar-settings-tabs {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.eo-sidebar .eo-sidebar-settings .eo-sidebar-settings-tabs .eo-sidebar-settings-tab {
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #e6f7ff;
+    border: 1px solid #91d5ff;
+    color: #1890ff;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all ease-in-out 0.3s;
+    gap: 5px;
+}
+
+.eo-sidebar .eo-sidebar-settings .eo-sidebar-settings-tabs .eo-sidebar-settings-tab:hover {
+    background-color: #91d5ff;
+    color: #fff;
+}
+
+.eo-sidebar .eo-sidebar-settings .eo-sidebar-settings-tabs .eo-sidebar-settings-tab.active {
+    background-color: #91d5ff;
+    color: #fff;
+}
+
+.eo-sidebar .eo-sidebar-settings .eo-sidebar-settings-tabs .eo-sidebar-settings-tab p {
+    pointer-events: none;
+}
+
+.eo-sidebar .eo-sidebar-settings .eo-sidebar-settings-tab-content {
+    display: none;
+}
+
+.eo-sidebar .eo-sidebar-settings .eo-sidebar-settings-tab-content.active {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.eo-sidebar .eo-sidebar-settings .eo-sidebar-settings-tab-content label {
+    font-size: 14px;
+}
+
+.eo-sidebar .eo-sidebar-settings .eo-sidebar-settings-tab-content textarea {
+    resize: none;
+}

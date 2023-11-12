@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vanilla JS Drag and Drop</title>
+  <style>
+    #container {
+      display: flex;
+      flex-direction: column;
+      gap: 100px;
+    }
+
+    .draggable {
+      width: 100%;
+      min-height: 100px;
+      padding: 10px;
+      background-color: #3498db;
+      color: #fff;
+      margin-bottom: 10px;
+      cursor: move;
+      transition: transform 0.2s;
+    }
+
+    .draggable h2 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .draggable img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin-top: 10px;
+    }
+
+    .dragging {
+      opacity: 0.5;
+    }
+  </style>
+</head>
+<body>
+  <div id="container"></div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      let draggedElement = null;
+
+      function createDraggableElement(content) {
+        const element = document.createElement('div');
+        element.classList.add('draggable');
+        element.innerHTML = content;
+        element.draggable = true;
+
+        element.addEventListener('dragstart', function(event) {
+          draggedElement = element;
+          // Highlight the dragged element
+          element.style.opacity = '0.5';
+          // Add a class for styling during dragging
+          element.classList.add('dragging');
+        });
+
+        element.addEventListener('dragend', function() {
+          // Remove the highlight from the dragged element
+          element.style.opacity = '1';
+          // Remove the dragging class
+          element.classList.remove('dragging');
+          // Reset transform property
+          element.style.transform = 'translateY(0)';
+        });
+
+        document.getElementById('container').appendChild(element);
+      }
+
+      // Create initial draggable elements
+      createDraggableElement('<h2>Heading 1</h2>');
+      createDraggableElement('<p>Paragraph 1</p>');
+      createDraggableElement('<div><img src="https://via.placeholder.com/150" alt="Image 1"></div>');
+      createDraggableElement('<h2>Heading 2</h2>');
+      createDraggableElement('<p>Paragraph 2</p>');
+      createDraggableElement('<div><img src="https://via.placeholder.com/150" alt="Image 2"></div>');
+
+      const container = document.getElementById('container');
+
+      container.addEventListener('dragover', function(event) {
+        event.preventDefault();
+        const draggingRect = draggedElement.getBoundingClientRect();
+        const mouseY = event.clientY;
+        const isBefore = mouseY < draggingRect.top + draggingRect.height / 2;
+
+        // Calculate the translateY property based on the mouse position
+        draggedElement.style.transform = `translateY(${isBefore ? '-100%' : '100%'})`;
+
+        const afterElement = isBefore ? draggedElement.previousElementSibling : draggedElement;
+        if (afterElement == null) {
+          container.appendChild(draggedElement);
+        } else {
+          container.insertBefore(draggedElement, afterElement);
+        }
+      });
+
+      container.addEventListener('drop', function() {
+        // Reset styles after drop
+        draggedElement = null;
+        document.querySelectorAll('.draggable').forEach(element => {
+          element.classList.remove('dragging');
+          element.style.opacity = '1';
+          element.style.transform = 'translateY(0)';
+        });
+      });
+    });
+  </script>
+</body>
+</html>
