@@ -8,13 +8,15 @@ defineNewWidget('Heading', 'fas fa-heading', 'text', {
             type: 'textarea',
             label: 'Text',
             value: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.',
-            options: null
+            options: null,
+            group: 'content'
         },
         textAlign: {
             type: 'dropdown',
             label: 'Text Align',
             value: 'left',
-            options: ['left', 'center', 'right', 'justify']
+            options: ['left', 'center', 'right', 'justify'],
+            group: 'style'
         },
     },
     style: {
@@ -22,22 +24,25 @@ defineNewWidget('Heading', 'fas fa-heading', 'text', {
             type: 'number',
             label: 'Font Size',
             value: '16',
-            options: null
+            options: null,
+            group: 'style'
         },
         fontFamily: {
             type: 'dropdown',
             label: 'Font Family',
             value: 'Arial',
-            options: ['Arial', 'Times New Roman', 'Courier New', 'Verdana', 'Georgia', 'Palatino', 'Garamond', 'Bookman', 'Comic Sans MS', 'Trebuchet MS', 'Arial Black', 'Impact']
+            options: ['Arial', 'Times New Roman', 'Courier New', 'Verdana', 'Georgia', 'Palatino', 'Garamond', 'Bookman', 'Comic Sans MS', 'Trebuchet MS', 'Arial Black', 'Impact'],
+            group: 'style'
         },
         color: {
             type: 'color',
             label: 'Color',
             value: '#000000',
-            options: null
+            options: null,
+            group: 'style'
         }
     }
-});
+}, 'heading');
 
 defineNewWidget('Image', 'fas fa-image', 'image', {
     content: {
@@ -45,7 +50,8 @@ defineNewWidget('Image', 'fas fa-image', 'image', {
             type: 'text',
             label: 'Image Source',
             value: '',
-            options: null
+            options: null,
+            group: 'attribute'
         }
     },
     style: {
@@ -53,18 +59,20 @@ defineNewWidget('Image', 'fas fa-image', 'image', {
             type: 'text',
             label: 'Width',
             value: '200',
-            options: null
+            options: null,
+            group: 'style',
         },
         height: {
             type: 'text',
             label: 'Height',
             value: '300',
-            options: null
+            options: null,
+            group: 'style'
         }
     }
-});
+}, 'image');
 
-defineNewWidget('Container', 'fas fa-boxes', 'container', {
+defineNewWidget('Container', 'fas fa-box', 'container', {
     content: {
         width: {
             type: 'text',
@@ -76,37 +84,43 @@ defineNewWidget('Container', 'fas fa-boxes', 'container', {
             type: 'text',
             label: 'Min Height',
             value: '100px',
-            options: null
+            options: null,
+            group: 'style'
         },
         flexDirection: {
             type: 'dropdown',
             label: 'Flex Direction',
             value: 'row',
-            options: ['row', 'column', 'row-reverse', 'column-reverse']
+            options: ['row', 'column', 'row-reverse', 'column-reverse'],
+            group: 'style'
         },
         justifyContent: {
             type: 'dropdown',
             label: 'Justify Content',
             value: 'flex-start',
-            options: ['flex-start', 'flex-end', 'center', 'space-between', 'space-around', 'space-evenly']
+            options: ['flex-start', 'flex-end', 'center', 'space-between', 'space-around', 'space-evenly'],
+            group: 'style'
         },
         alignItems: {
             type: 'dropdown',
             label: 'Align Items',
             value: 'flex-start',
-            options: ['flex-start', 'flex-end', 'center', 'baseline', 'stretch']
+            options: ['flex-start', 'flex-end', 'center', 'baseline', 'stretch'],
+            group: 'style'
         },
         flexWrap: {
             type: 'dropdown',
             label: 'Flex Wrap',
             value: 'nowrap',
-            options: ['nowrap', 'wrap', 'wrap-reverse']
+            options: ['nowrap', 'wrap', 'wrap-reverse'],
+            group: 'style'
         },
         gap: {
             type: 'text',
             label: 'Gap',
             value: '0',
-            options: null
+            options: null,
+            group: 'style'
         },
     },
     style: {
@@ -114,178 +128,124 @@ defineNewWidget('Container', 'fas fa-boxes', 'container', {
             type: 'color',
             label: 'Background Color',
             value: '#ffffff',
-            options: null
+            options: null,
+            group: 'style'
         },
         border: {
             type: 'text',
             label: 'Border',
             value: 'none',
-            options: null
+            options: null,
+            group: 'style'
         },
         borderRadius: {
             type: 'text',
             label: 'Border Radius',
             value: '0',
-            options: null
+            options: null,
+            group: 'style',
         },
         padding: {
             type: 'text',
             label: 'Padding',
             value: '0',
-            options: null
+            options: null,
+            group: 'style'
         },
         margin: {
             type: 'text',
             label: 'Margin',
             value: '0',
-            options: null
+            options: null,
+            group: 'style'
         },
     }
-});
+}, 'container');
 
-displayWidgets();
-const componentSettings = {
-    text: {
-        content: {
-            innerText: {
-                type: 'textarea',
-                label: 'Text',
-                value: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.',
-                options: null
-            },
-            textAlign: {
-                type: 'dropdown',
-                label: 'Text Align',
-                value: 'left',
-                options: ['left', 'center', 'right', 'justify']
-            }
+defineNewWidget('Button', 'fas fa-link', 'button', {
+    content: {
+        innerText: {
+            type: 'textarea',
+            label: 'Text',
+            value: 'Button',
+            options: null,
+            group: 'content'
         },
-        style: {
-            fontSize: {
-                type: 'number',
-                label: 'Font Size',
-                value: '16',
-                options: null
-            },
-            fontFamily: {
-                type: 'dropdown',
-                label: 'Font Family',
-                value: 'Arial',
-                options: ['Arial', 'Times New Roman', 'Courier New', 'Verdana', 'Georgia', 'Palatino', 'Garamond', 'Bookman', 'Comic Sans MS', 'Trebuchet MS', 'Arial Black', 'Impact']
-            },
-            color: {
-                type: 'color',
-                label: 'Color',
-                value: '#000000',
-                options: null
-            }
-        }
-    },
-    image: {
-        content: {
-            src: {
-                type: 'text',
-                label: 'Image Source',
-                value: '',
-                options: null
-            }
+        textAlign: {
+            type: 'dropdown',
+            label: 'Text Align',
+            value: 'left',
+            options: ['left', 'center', 'right', 'justify'],
+            group: 'style'
         },
-        style: {
-            width: {
-                type: 'text',
-                label: 'Width',
-                value: '200',
-                options: null
-            },
-            height: {
-                type: 'text',
-                label: 'Height',
-                value: '300',
-                options: null
-            }
-        }
     },
-    container: {
-        content: {
-            width: {
-                type: 'text',
-                label: 'Width',
-                value: '100%',
-                options: null
-            },
-            minHeight: {
-                type: 'text',
-                label: 'Min Height',
-                value: '100px',
-                options: null
-            },
-            flexDirection: {
-                type: 'dropdown',
-                label: 'Flex Direction',
-                value: 'row',
-                options: ['row', 'column', 'row-reverse', 'column-reverse']
-            },
-            justifyContent: {
-                type: 'dropdown',
-                label: 'Justify Content',
-                value: 'flex-start',
-                options: ['flex-start', 'flex-end', 'center', 'space-between', 'space-around', 'space-evenly']
-            },
-            alignItems: {
-                type: 'dropdown',
-                label: 'Align Items',
-                value: 'flex-start',
-                options: ['flex-start', 'flex-end', 'center', 'baseline', 'stretch']
-            },
-            flexWrap: {
-                type: 'dropdown',
-                label: 'Flex Wrap',
-                value: 'nowrap',
-                options: ['nowrap', 'wrap', 'wrap-reverse']
-            },
-            gap: {
-                type: 'text',
-                label: 'Gap',
-                value: '0',
-                options: null
-            },
+    style: {
+        fontSize: {
+            type: 'number',
+            label: 'Font Size',
+            value: '16',
+            options: null,
+            group: 'style'
         },
-        style: {
-            backgroundColor: {
-                type: 'color',
-                label: 'Background Color',
-                value: '#ffffff',
-                options: null
-            },
-            border: {
-                type: 'text',
-                label: 'Border',
-                value: 'none',
-                options: null
-            },
-            borderRadius: {
-                type: 'text',
-                label: 'Border Radius',
-                value: '0',
-                options: null
-            },
-            padding: {
-                type: 'text',
-                label: 'Padding',
-                value: '0',
-                options: null
-            },
-            margin: {
-                type: 'text',
-                label: 'Margin',
-                value: '0',
-                options: null
-            },
-        }
-    },
+        fontFamily: {
+            type: 'dropdown',
+            label: 'Font Family',
+            value: 'Arial',
+            options: ['Arial', 'Times New Roman', 'Courier New', 'Verdana', 'Georgia', 'Palatino', 'Garamond', 'Bookman', 'Comic Sans MS', 'Trebuchet MS', 'Arial Black', 'Impact'],
+            group: 'style'
+        },
+        color: {
+            type: 'color',
+            label: 'Color',
+            value: '#000000',
+            options: null,
+            group: 'style'
+        },
+        backgroundColor: {
+            type: 'color',
+            label: 'Background Color',
+            value: '#ffffff',
+            options: null,
+            group: 'style'
+        },
+        border: {
+            type: 'text',
+            label: 'Border',
+            value: 'none',
+            options: null,
+            group: 'style'
+        },
+        borderRadius: {
+            type: 'text',
+            label: 'Border Radius',
+            value: '0',
+            options: null,
+            group: 'style',
+        },
+        padding: {
+            type: 'text',
+            label: 'Padding',
+            value: '0',
+            options: null,
+            group: 'style'
+        },
+        margin: {
+            type: 'text',
+            label: 'Margin',
+            value: '0',
+            options: null,
+            group: 'style'
+        },
+    }
+}, 'button');
+
+const components = {
+    'text': componentBoilerplate('heading', textComponentHTML()),
+    'image': componentBoilerplate('image', imageComponentHTML()),
+    'button': componentBoilerplate('button', buttonComponentHTML()),
 }
 
-
+displayWidgets();
 
 document.addEventListener('click', (e) => {
 
@@ -310,14 +270,14 @@ document.addEventListener('click', (e) => {
         const container = e.target.closest('.eo-container');
         componentCurrentlyBeingEdited = container.querySelector('.eo-container-content');
         setSidebarView('settings');
-        buildSettingsMenu(container);
+        buildWidgetSettingsMenu(container);
     }
 
     if(e.target.matches('.edit-component-btn')) {
         const component = e.target.closest('.eo-component');
         componentCurrentlyBeingEdited = component.querySelector('.eo-component-content *');
         setSidebarView('settings');
-        buildSettingsMenu(component);
+        buildWidgetSettingsMenu(component);
     }
 })
 
@@ -641,7 +601,7 @@ document.addEventListener('click', (e) => {
             containerToAppend = addContainer();
             mainContainer.appendChild(containerToAppend);
         } else if(componentType === 'container' && !containerToAppend) {
-            mainContainer.appendChild(addComponent(componentType));
+            mainContainer.appendChild(addContainer());
             return;
         } 
     
@@ -655,52 +615,49 @@ document.addEventListener('click', (e) => {
 
 function addComponent(type) {
 
-    switch(type) {
-        case 'text':
-            return addTextComponent();
-        case 'image':
-            return addImageComponent();
-        case 'container':
-            return addContainer();
-        default:
-            return addTextComponent();
-    }
+    const componentHTML = components[type];
+    const component = document.createElement('div');
+    component.classList.add('eo-component');
+    component.setAttribute('data-type', type);
+    component.innerHTML = componentHTML;
+    return component;
 
 }
 
 function componentBoilerplate(type, content) {
 
-    const component = document.createElement('div');
-    component.classList.add('eo-component');
-    component.setAttribute('data-type', type);
-    component.innerHTML = `
+    return `
         <div class="eo-component-content">
             ${content}
             <button type="button" class="edit-component-btn"><i class="fas fa-edit"></i></button>
         </div>
     `;
 
-    return component;
+}
 
+function textComponentHTML() {
 
+    return `
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.</p>
+    `;
 
 }
 
-function addTextComponent(htmlTag = 'h4') {
+function imageComponentHTML() {
 
-    const component = componentBoilerplate('text', `<${htmlTag}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.</${htmlTag}>`);
-
-    return component;
-
-}
-
-function addImageComponent() {
-    
-    const component = componentBoilerplate('image', `<img src="https://picsum.photos/200/300" alt="placeholder image">`);
-
-    return component;
+    return `
+        <img src="https://picsum.photos/200/300" alt="placeholder image">
+    `;
 
 }
+
+function buttonComponentHTML() {
+
+    return `
+        <button type="button">Button</button>
+    `;
+}
+
 
 function findComponentBelow(mouseY, container) {
     const allComponents = container.querySelectorAll('.eo-container-content .eo-component:not(.dragging), .eo-container-content .eo-container:not(.dragging)');
@@ -726,116 +683,16 @@ function getComponentType(component) {
     return component.getAttribute('data-type');
 }
 
-function buildSettingsMenu(component) {
+function buildWidgetSettingsMenu(component) {
 
-    const componentType = getComponentType(component);
-
-    switch(componentType) {
-        case 'text':
-            return buildTextSettingsMenu(component);
-        case 'image':
-            return buildImageSettingsMenu(component);
-        case 'container':
-            return buildContainerSettingsMenu(component);
-        default:
-            return buildTextSettingsMenu(component);
-    }
-}
-
-function buildTextSettingsMenu(component) {
-
-    const componentType = getComponentType(component);
-    const componentSettings = getComponentSettings(componentType);
-    
-    // replace [tab] with the name of the tab we want to add the settings to
+    const type = getComponentType(component);
+    const settings = getWidgetSettings(type);
     const sidebarSettingsSelector = '.eo-sidebar-settings-tab-content#[tab]';
-
-    if(componentSettings === null) {
-        return;
-    }
-
-    const contentSettings = componentSettings.content;
+    const contentSettings = settings.content;
     let contentSettingsHTML = '';
-
-    const styleSettings = componentSettings.style;
+    const styleSettings = settings.style;
     let styleSettingsHTML = '';
 
-    Object.keys(contentSettings).forEach((settingAction) => {
-        const setting = contentSettings[settingAction];
-        const settingHTML = buildSetting(settingAction, setting, component);
-        contentSettingsHTML += settingHTML;
-    })
-
-    Object.keys(styleSettings).forEach((settingAction) => {
-        const setting = styleSettings[settingAction];
-        const settingHTML = buildSetting(settingAction, setting, component);
-        styleSettingsHTML += settingHTML;
-    })
-
-
-    const contentTab = sidebarSettingsSelector.replace('[tab]', 'content');
-    const styleTab = sidebarSettingsSelector.replace('[tab]', 'style');
-
-    document.querySelector(contentTab).innerHTML = contentSettingsHTML;
-    document.querySelector(styleTab).innerHTML = styleSettingsHTML;
-
-}
-
-function buildImageSettingsMenu(component) {
-
-    const componentType = getComponentType(component);
-    const componentSettings = getComponentSettings(componentType);
-    // replace [tab] with the name of the tab we want to add the settings to
-    const sidebarSettingsSelector = '.eo-sidebar-settings-tab-content#[tab]';
-
-    if(componentSettings === null) {
-        return;
-    }
-
-    const contentSettings = componentSettings.content;
-    let contentSettingsHTML = '';
-    
-    const styleSettings = componentSettings.style;
-    let styleSettingsHTML = '';
-    
-    Object.keys(contentSettings).forEach((settingAction) => {
-        const setting = contentSettings[settingAction];
-        const settingHTML = buildSetting(settingAction, setting, component);
-        contentSettingsHTML += settingHTML;
-    })
-
-    Object.keys(styleSettings).forEach((settingAction) => {
-        const setting = styleSettings[settingAction];
-        const settingHTML = buildSetting(settingAction, setting, component);
-        styleSettingsHTML += settingHTML;
-    })
-
-
-    const contentTab = sidebarSettingsSelector.replace('[tab]', 'content');
-    const styleTab = sidebarSettingsSelector.replace('[tab]', 'style');
-
-    document.querySelector(contentTab).innerHTML = contentSettingsHTML;
-    document.querySelector(styleTab).innerHTML = styleSettingsHTML;
-
-}
-
-function buildContainerSettingsMenu(component) {
-
-    const componentType = getComponentType(component);
-    const componentSettings = getComponentSettings(componentType);
-    // replace [tab] with the name of the tab we want to add the settings to
-    const sidebarSettingsSelector = '.eo-sidebar-settings-tab-content#[tab]';
-
-    if(componentSettings === null) {
-        return;
-    }
-
-    const contentSettings = componentSettings.content;
-    let contentSettingsHTML = '';
-    
-    const styleSettings = componentSettings.style;
-    let styleSettingsHTML = '';
-    
     Object.keys(contentSettings).forEach((settingAction) => {
         const setting = contentSettings[settingAction];
         const settingHTML = buildSetting(settingAction, setting, component);
@@ -853,107 +710,90 @@ function buildContainerSettingsMenu(component) {
 
     document.querySelector(contentTab).innerHTML = contentSettingsHTML;
     document.querySelector(styleTab).innerHTML = styleSettingsHTML;
-
 }
 
 
-  
-function getComponentSettings(type) {
-    return componentSettings[type] ? componentSettings[type] : null;
-}
+
 
 function buildSetting(settingAction, setting, component) {
 
+    const settingGroup = setting.group;
     const settingType = setting.type;
     const settingLabel = setting.label;
-    const settingValue = getComponentSettingValue(settingAction, component) ? getComponentSettingValue(settingAction, component) : setting.value;
+    // const settingValue = getComponentSettingValue(settingAction, component) ? getComponentSettingValue(settingAction, component) : setting.value;
+    const settingValue = getWidgetCurrentValue(settingAction, component) ? getWidgetCurrentValue(settingAction, component) : setting.value;
     const settingOptions = setting.options; 
 
     switch(settingType) {
         case 'textarea':
-            return buildTextareaSetting(settingAction, settingLabel, settingValue);
+            return buildTextareaSetting(settingAction, settingLabel, settingValue, settingGroup);
         case 'number':
-            return buildNumberSetting(settingAction, settingLabel, settingValue);
+            return buildNumberSetting(settingAction, settingLabel, settingValue, settingGroup);
         case 'dropdown':
-            return buildDropdownSetting(settingAction, settingLabel, settingValue, settingOptions);
+            return buildDropdownSetting(settingAction, settingLabel, settingValue, settingOptions, settingGroup);
         case 'color':
-            return buildColorSetting(settingAction, settingLabel, settingValue);
+            return buildColorSetting(settingAction, settingLabel, settingValue, settingGroup);
         default:
-            return buildTextareaSetting(settingAction, settingLabel, settingValue);
+            return buildTextareaSetting(settingAction, settingLabel, settingValue, settingGroup);
     
     }
 
 }
 
-function getComponentSettingValue(settingAction, component) {
+function getWidgetCurrentValue(settingAction, component) {
 
-    const componentType = getComponentType(component);
-    const componentData = componentType === 'container' ? component.querySelector('.eo-container-content') : component.querySelector('.eo-component-content *');
+    let group = null;
+    const type = getComponentType(component);
+    const settings = getWidgetSettings(type);    
+    const contentSettings = settings.content;
+    const styleSettings = settings.style;
 
-    switch(settingAction) {
-        case 'innerText':
-            return componentData.innerText;
-        case 'fontSize':
-            return componentData.style.fontSize.replace('px', '');
-        case 'fontFamily':
-            return componentData.style.fontFamily;
-        case 'color':
-            return componentData.style.color;
-        case 'src':
-            return componentData.getAttribute('src');
-        case 'width':
-            return componentData.style.width.replace('px', '');
-        case 'height':
-            return componentData.style.height.replace('px', '');
-        case 'textAlign':
-            return componentData.style.textAlign;
-        case 'minHeight':
-            return componentData.style.minHeight.replace('px', '');
-        case 'flexDirection':
-            return componentData.style.flexDirection;
-        case 'justifyContent':
-            return componentData.style.justifyContent;
-        case 'alignItems':
-            return componentData.style.alignItems;
-        case 'flexWrap':
-            return componentData.style.flexWrap;
-        case 'gap':
-            return componentData.style.gap.replace('px', '');
-        case 'backgroundColor':
-            return componentData.style.backgroundColor;
-        case 'border':
-            return componentData.style.border;
-        case 'borderRadius':
-            return componentData.style.borderRadius.replace('px', '');
-        case 'padding':
-            return componentData.style.padding.replace('px', '');
-        case 'margin':
-            return componentData.style.margin.replace('px', '');
+    // check if the setting is in the content group
+    if(contentSettings[settingAction]) {
+        group = contentSettings[settingAction].group;
+    } else if(styleSettings[settingAction]) {
+        group = styleSettings[settingAction].group;
+    }
+
+    if(!group) {
+        return null;
+    }
+
+    switch(group) {
+        case 'content':
+            return getContent(settingAction);
+        case 'style':
+            return getStyle(settingAction);
+        case 'attribute':
+            return getAttribute(settingAction);
         default:
             return null;
     }
 
+    
 }
 
-function buildTextareaSetting(action, label, value) {
+
+
+function buildTextareaSetting(action, label, value, group) {
 
     return `
         <label for="textarea-${action}">${label}</label>
-        <textarea name="textarea-${action}" id="textarea-${action}" data-setting-action="${action}">${value}</textarea>
+        <textarea name="textarea-${action}" id="textarea-${action}" data-setting-action="${action}" data-setting-group="${group}">${value}</textarea>
     `;
 
 }
 
-function buildNumberSetting(action, label, value) {
+function buildNumberSetting(action, label, value, group) {
 
     return `
         <label for="number-${action}">${label}</label>
-        <input type="number" name="number-${action}" id="number-${action}" data-setting-action="${action}" value="${value}">
+        <input type="number" name="number-${action}" id="number-${action}" data-setting-action="${action}" value="${value}" data-setting-group="${group}">
     `;
 
 }
 
-function buildDropdownSetting(action, label, value, options) {
+function buildDropdownSetting(action, label, value, options, group) {
 
     let optionsHTML = '';
 
@@ -967,18 +807,18 @@ function buildDropdownSetting(action, label, value, options) {
 
     return `
         <label for="dropdown-${action}">${label}</label>
-        <select name="dropdown-${action}" id="dropdown-${action}" data-setting-action="${action}">
+        <select name="dropdown-${action}" id="dropdown-${action}" data-setting-action="${action}" data-setting-group="${group}">
             ${optionsHTML}
         </select>
     `;
 
 }
 
-function buildColorSetting(action, label, value) {
+function buildColorSetting(action, label, value, group) {
 
     return `
         <label for="color-${action}">${label}</label>
-        <input type="color" name="color-${action}" id="color-${action}" data-setting-action="${action}" value="${rgbToHex(value)}">
+        <input type="color" name="color-${action}" id="color-${action}" data-setting-action="${action}" value="${value}" data-setting-group="${group}">
     `;
 
 }
@@ -1029,229 +869,54 @@ function setSidebarView(view) {
 document.addEventListener('input', (e) => {
   
     const settingAction = e.target.getAttribute('data-setting-action');
+    const settingGroup = e.target.getAttribute('data-setting-group');
     if(!settingAction) {
         return;
     }
-    
-    updateComponentSetting(settingAction, e.target);
-    
-    
+
+    switch(settingGroup) {
+        case 'style':
+            updateStyle(settingAction, e.target.value);
+            break;
+        case 'content':
+            updateContent(settingAction, e.target.value);
+            break;
+        case 'attribute':
+            updateAttribute(settingAction, e.target.value);
+            break;
+    }
 })
-
-function updateComponentSetting(settingAction, setting) {
-
-    switch(settingAction) {
-        case 'innerText':
-            return updateInnerText(setting);
-        case 'fontSize':
-            return updateFontSize(setting);
-        case 'fontFamily':
-            return updateFontFamily(setting);
-        case 'color':
-            return updateColor(setting);
-        case 'src':
-            return updateSrc(setting);
-        case 'width':
-            return updateWidth(setting);
-        case 'height':
-            return updateHeight(setting);
-        case 'textAlign':
-            return updateTextAlign(setting);
-        case 'minHeight':
-            return updateMinHeight(setting);
-        case 'flexDirection':
-            return updateFlexDirection(setting);
-        case 'justifyContent':
-            return updateJustifyContent(setting);
-        case 'alignItems':
-            return updateAlignItems(setting);
-        case 'flexWrap':
-            return updateFlexWrap(setting);
-        case 'gap':
-            return updateGap(setting);
-        case 'backgroundColor':
-            return updateBackgroundColor(setting);
-        case 'border':
-            return updateBorder(setting);
-        case 'borderRadius':
-            return updateBorderRadius(setting);
-        case 'padding':
-            return updatePadding(setting);
-        case 'margin':
-            return updateMargin(setting);
-        default:
-            return;
-    }
-
-}
-
-function updateInnerText(setting) {
-    const value = setting.value;
-    componentCurrentlyBeingEdited.innerText = value;
-}
-
-function updateFontSize(setting) {
-    const value = setting.value;
-    componentCurrentlyBeingEdited.style.fontSize = `${value}px`;
-}
-
-function updateFontFamily(setting) {
-    const value = setting.value;
-    componentCurrentlyBeingEdited.style.fontFamily = value;
-}
-
-function updateColor(setting) {
-    const value = setting.value;
-    componentCurrentlyBeingEdited.style.color = value;
-}
-
-function updateSrc(setting) {
-    const value = setting.value;
-    componentCurrentlyBeingEdited.setAttribute('src', value);
-}
-
-function updateWidth(setting) {
-    const isCurrentElementContainer = componentCurrentlyBeingEdited.matches('.eo-container-content');
-    const value = setting.value;
-    if(isCurrentElementContainer) {
-        if(value.includes('%')) {
-            componentCurrentlyBeingEdited.parentElement.style.width = `${value}`;
-        } else {
-            componentCurrentlyBeingEdited.parentElement.style.width = `${value}px`;
-        }
-        return;
-    } else {
-
-        if(value.includes('%')) {
-            componentCurrentlyBeingEdited.style.width = `${value}`;
-        } else {
-            componentCurrentlyBeingEdited.style.width = `${value}px`;
-        }
     
+
+
+function updateStyle(setting, value) {
+    componentCurrentlyBeingEdited.style[setting] = value;
+}
+
+function updateContent(setting, value) {
+    componentCurrentlyBeingEdited[setting] = value;
+}
+
+function updateAttribute(setting, value) {
+    componentCurrentlyBeingEdited.setAttribute(setting, value);
+}
+
+function getStyle(setting) {
+
+    if(setting === 'color') {
+        return rgbToHex(componentCurrentlyBeingEdited.style[setting]);
     }
 
+    return componentCurrentlyBeingEdited.style[setting];
 }
 
-
-
-function updateTextAlign(setting) {
-    const value = setting.value;
-    componentCurrentlyBeingEdited.style.textAlign = value;
+function getContent(setting) {
+    return componentCurrentlyBeingEdited[setting];
 }
 
-function updateHeight(setting) {
-    const value = setting.value;
-    componentCurrentlyBeingEdited.style.height = `${value}`;
+function getAttribute(setting) {
+    return componentCurrentlyBeingEdited.getAttribute(setting);
 }
-
-function updateMinHeight(setting) {
-    const isCurrentElementContainer = componentCurrentlyBeingEdited.matches('.eo-container-content');
-    const value = setting.value;
-    if(isCurrentElementContainer) {
-        componentCurrentlyBeingEdited.parentElement.style.minHeight = `${value}`;
-        return;
-    } else {
-        componentCurrentlyBeingEdited.style.minHeight = `${value}`;
-    }
-}
-
-function updateFlexDirection(setting) {
-    const value = setting.value;
-    componentCurrentlyBeingEdited.style.flexDirection = value;
-}
-
-function updateJustifyContent(setting) {
-    const value = setting.value;
-    componentCurrentlyBeingEdited.style.justifyContent = value;
-}
-
-function updateAlignItems(setting) {
-    const value = setting.value;
-    componentCurrentlyBeingEdited.style.alignItems = value;
-}
-
-function updateFlexWrap(setting) {
-    const value = setting.value;
-    componentCurrentlyBeingEdited.style.flexWrap = value;
-}
-
-function updateGap(setting) {
-    const value = setting.value;
-    componentCurrentlyBeingEdited.style.gap = `${value}px`;
-}
-
-function updateBackgroundColor(setting) {
-    const isCurrentElementContainer = componentCurrentlyBeingEdited.matches('.eo-container-content');
-    const value = setting.value;
-    if(isCurrentElementContainer) {
-        componentCurrentlyBeingEdited.parentElement.style.backgroundColor = value;
-        return;
-    } else {
-        componentCurrentlyBeingEdited.style.backgroundColor = value;
-    }
-}
-
-function updateBorder(setting) {
-    const isCurrentElementContainer = componentCurrentlyBeingEdited.matches('.eo-container-content');
-    const value = setting.value;
-    if(isCurrentElementContainer) {
-        componentCurrentlyBeingEdited.parentElement.style.border = value;
-        return;
-    } else {
-        componentCurrentlyBeingEdited.style.border = value;
-    }
-}
-
-function updateBorderRadius(setting) {
-
-    const isCurrentElementContainer = componentCurrentlyBeingEdited.matches('.eo-container-content');
-    const value = setting.value;
-    if(isCurrentElementContainer) {
-        componentCurrentlyBeingEdited.parentElement.style.borderRadius = `${value}px`;
-        return;
-    } else {
-        componentCurrentlyBeingEdited.style.borderRadius = `${value}px`;
-    }
-
-}
-
-function updatePadding(setting) {
-    const isCurrentElementContainer = componentCurrentlyBeingEdited.matches('.eo-container-content');
-    const value = setting.value;
-    if(isCurrentElementContainer) {
-        componentCurrentlyBeingEdited.parentElement.style.padding = `${value}px`;
-        return;
-    } else {
-        componentCurrentlyBeingEdited.style.padding = `${value}px`;
-    }
-}
-
-function updateMargin(setting) {
-    const isCurrentElementContainer = componentCurrentlyBeingEdited.matches('.eo-container-content');
-    const value = setting.value;
-    if(isCurrentElementContainer) {
-        componentCurrentlyBeingEdited.parentElement.style.margin = `${value}px`;
-        return;
-    } else {
-        componentCurrentlyBeingEdited.style.margin = `${value}px`;
-    }
-}
-
-function adjustContainerControlsPosition() {
-    const containerControls = document.querySelectorAll('.eo-container-controls');
-
-    containerControls.forEach((controls) => {
-        const rect = controls.getBoundingClientRect();
-
-        // Check if the controls are out of the viewport
-        if (rect.right > window.innerWidth || rect.bottom > window.innerHeight) {
-            // Move to the right (0) and add 10 to the top position
-            controls.style.right = '0';
-            controls.style.top = `${parseFloat(controls.style.top) + 10}px`;
-        }
-    });
-}
-
 
 
 
@@ -1273,12 +938,13 @@ function rgbToHex(rgb) {
 }
 
 
-function defineNewWidget(widgetName, widgetIcon, widgetType, widgetSettings) {
+function defineNewWidget(widgetName, widgetIcon, widgetType, widgetSettings, widgetComponent) {
     widgets.push({
         name: widgetName,
         icon: widgetIcon,
         type: widgetType,
-        settings: widgetSettings
+        settings: widgetSettings,
+        component: widgetComponent
     });
 }
 
@@ -1286,12 +952,8 @@ function getWidgets() {
     return widgets;
 }
 
-function getWidgetByName(widgetName) {
-    return widgets.find(widget => widget.name === widgetName);
-}
-
-function getWidgetSettings(widgetName) {
-    return widgets.find(widget => widget.name === widgetName).settings;
+function getWidgetSettings(widgetType) {
+    return widgets.find(widget => widget.type === widgetType).settings;
 }
 
 function displayWidgets() {
