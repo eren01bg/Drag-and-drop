@@ -218,7 +218,7 @@ document.addEventListener('click', (e) => {
 
     if(e.target.matches('.eo-container-controls [data-action="drag"]')) {
         const container = e.target.closest('.eo-container');
-        componentCurrentlyBeingEdited = container.querySelector('.eo-container-content');
+        componentCurrentlyBeingEdited = container;
         setSidebarView('settings');
         buildWidgetSettingsMenu(container);
     }
@@ -312,7 +312,7 @@ document.addEventListener('dragover', (e) => {
     if(e.target.matches('.eo-container') && isDraggingComponent) {
         
         e.preventDefault();
-        const componentContainer = e.target.querySelector('.eo-container-content');
+        const componentContainer = e.target;
         const componentBelow = findComponentBelow(e.clientY, componentContainer);
 
         if(!componentBelow) {
@@ -325,7 +325,7 @@ document.addEventListener('dragover', (e) => {
 
     if (e.target.matches('.eo-container:not(.dragging)') && isDraggingContainer) {
         e.preventDefault();
-        const componentContainer = e.target.querySelector('.eo-container-content');
+        const componentContainer = e.target;
         const containerBelow = findComponentBelow(e.clientY, componentContainer);
         
         if(!containerBelow) {
@@ -341,7 +341,7 @@ document.addEventListener('dragover', (e) => {
         
         e.preventDefault();
         const componentBelow = e.target.closest('.eo-component');
-        const componentContainer = componentBelow.closest('.eo-container-content');
+        const componentContainer = componentBelow.closest('.eo-container');
         const isMovingLeft = e.clientX < e.target.getBoundingClientRect().left + e.target.getBoundingClientRect().width / 2;
         const isMovingRight = e.clientX > e.target.getBoundingClientRect().left + e.target.getBoundingClientRect().width / 2;
 
@@ -392,8 +392,6 @@ function addContainer() {
             <button type="button" data-action="add-container"><i class="fas fa-plus"></i></button>
             <button type="button" data-action="drag"><i class="fas fa-arrows-alt"></i></button>
             <button type="button" data-action="remove"><i class="fas fa-trash"></i></button>
-        </div>
-        <div class="eo-container-content" data-id="${getNewContainerId()}">
         </div>
         <button type="button" class="add-component-btn"><i class="fas fa-plus"></i></button>
     `;
@@ -555,7 +553,7 @@ document.addEventListener('click', (e) => {
             return;
         } 
     
-        let componentContainer = containerToAppend.querySelector('.eo-container-content');
+        let componentContainer = containerToAppend;
         const component = addComponent(componentType);
         componentContainer.appendChild(component);
         containerToAppend.classList.remove('empty');
@@ -610,7 +608,7 @@ function buttonComponentHTML() {
 
 
 function findComponentBelow(mouseY, container) {
-    const allComponents = container.querySelectorAll('.eo-container-content .eo-component:not(.dragging), .eo-container-content .eo-container:not(.dragging)');
+    const allComponents = container.querySelectorAll('.eo-component:not(.dragging), .eo-container:not(.dragging)');
 
     let closestComponent = null;
     let closestOffset = Number.NEGATIVE_INFINITY;
