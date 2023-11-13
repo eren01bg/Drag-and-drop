@@ -5,7 +5,7 @@ let widgets = [];
 
 defineNewWidget('Heading', 'fas fa-heading', 'text', {
     content: ['innerText', 'textAlign'],
-    style: ['fontSize', 'fontFamily', 'color', 'backgroundColor', 'borderType', 'borderSize', 'borderRadius', 'padding', 'margin']
+    style: ['fontSize', 'fontFamily', 'color', 'backgroundColor', 'borderStyle', 'borderWidth', 'borderRadius', 'padding', 'margin']
 }, 'heading');
 
 defineNewWidget('Image', 'fas fa-image', 'image', {
@@ -20,7 +20,7 @@ defineNewWidget('Container', 'fas fa-box', 'container', {
 
 defineNewWidget('Button', 'fas fa-link', 'button', {
     content: ['innerText', 'href'],
-    style: ['fontSize', 'fontFamily', 'color', 'backgroundColor', 'borderType', 'borderSize', 'borderRadius', 'padding', 'margin']
+    style: ['fontSize', 'fontFamily', 'color', 'backgroundColor', 'borderStyle', 'borderWidth', 'borderRadius', 'padding', 'margin']
 }, 'button');
 
 const components = {
@@ -65,6 +65,13 @@ const settings = {
         options: null,
         group: 'style'
     },
+    'minHeight': {
+        type: 'text',
+        label: 'Min Height',
+        value: '0',
+        options: null,
+        group: 'content'
+    },
     'fontSize': {
         type: 'number',
         label: 'Font Size',
@@ -93,14 +100,14 @@ const settings = {
         options: null,
         group: 'style'
     },
-    'borderType': {
+    'borderStyle': {
         type: 'dropdown',
         label: 'Border Type',
         value: 'none',
         options: [{value: 'none', label: 'None'}, {value: 'solid', label: 'Solid'}, {value: 'dotted', label: 'Dotted'}, {value: 'dashed', label: 'Dashed'}, {value: 'double', label: 'Double'}, {value: 'groove', label: 'Groove'}, {value: 'ridge', label: 'Ridge'}, {value: 'inset', label: 'Inset'}, {value: 'outset', label: 'Outset'}],
         group: 'style'
     },
-    'borderSize': {
+    'borderWidth': {
         type: 'text',
         label: 'Border Size',
         value: '0',
@@ -873,20 +880,23 @@ function getWidgets() {
 
 function getWidgetSettings(widgetType) {
     const widgetSettings = widgets.find(widget => widget.type === widgetType).settings;
-    
-    widgetSettings.content = {};
-    widgetSettings.style = {};
+    const result = {
+        content: {},
+        style: {}
+    };
 
-    Object.keys(settings).forEach((setting) => {
-        const settingGroup = settings[setting].group;
-        if(settingGroup === 'content') {
-            widgetSettings.content[setting] = settings[setting];
-        } else if(settingGroup === 'style') {
-            widgetSettings.style[setting] = settings[setting];
-        }
+    const contentSettings = widgetSettings.content;
+    const styleSettings = widgetSettings.style;
+
+    contentSettings.forEach((setting) => {
+        result.content[setting] = settings[setting];
     })
 
-    return widgetSettings;
+    styleSettings.forEach((setting) => {
+        result.style[setting] = settings[setting];
+    })
+
+    return result;
 
 }
 
