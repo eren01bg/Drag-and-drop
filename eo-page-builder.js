@@ -14,12 +14,12 @@ defineNewWidget('Image', 'fas fa-image', 'image', {
 }, 'image');
 
 defineNewWidget('Container', 'fas fa-box', 'container', {
-    content: ['width', 'minHeight', 'flexDirection', 'justifyContent', 'alignItems', 'flexWrap', 'gap'],
+    content: ['width', 'height', 'minHeight', 'flexDirection', 'justifyContent', 'alignItems', 'flexWrap', 'gap'],
     style: ['backgroundColor', 'borderStyle', 'borderRadius', 'padding', 'margin']
 }, 'container');
 
 defineNewWidget('Button', 'fas fa-link', 'button', {
-    content: ['innerText', 'href'],
+    content: ['innerText', 'href', 'textAlign'],
     style: ['fontSize', 'fontWeight', 'fontFamily', 'width', 'height', 'color', 'backgroundColor', 'borderStyle', 'borderWidth', 'borderRadius', 'padding', 'margin']
 }, 'button');
 
@@ -52,32 +52,36 @@ const settings = {
         group: 'attribute'
     },
     'width': {
-        type: 'text',
+        type: 'number',
         label: 'Width',
         value: '200',
         options: null,
         group: 'style',
+        showUnitsDropdown: true,
     },
     'height': {
-        type: 'text',
+        type: 'number',
         label: 'Height',
         value: '300',
         options: null,
-        group: 'style'
+        group: 'style',
+        showUnitsDropdown: true,
     },
     'minHeight': {
-        type: 'text',
+        type: 'number',
         label: 'Min Height',
         value: '0',
         options: null,
-        group: 'content'
+        group: 'content',
+        showUnitsDropdown: true,
     },
     'fontSize': {
-        type: 'text',
+        type: 'number',
         label: 'Font Size',
-        value: '16px',
+        value: '16',
         options: null,
-        group: 'style'
+        group: 'style',
+        showUnitsDropdown: true,
     },
     'fontFamily': {
         type: 'dropdown',
@@ -115,7 +119,7 @@ const settings = {
         group: 'style'
     },
     'borderWidth': {
-        type: 'text',
+        type: 'number',
         label: 'Border Size',
         value: '0',
         options: null,
@@ -124,27 +128,43 @@ const settings = {
         showAllSides: true,
     },
     'borderRadius': {
-        type: 'text',
+        type: 'multiside',
         label: 'Border Radius',
-        value: '0',
+        selectors: ['borderTopLeftRadius', 'borderTopRightRadius', 'borderBottomRightRadius', 'borderBottomLeftRadius'],
+        value: {
+            top: '0',
+            right: '0',
+            bottom: '0',
+            left: '0'
+        },
         options: null,
         group: 'style',
         showUnitsDropdown: true,
         showAllSides: true,
     },
     'padding': {
-        type: 'text',
+        type: 'multiside',
         label: 'Padding',
-        value: '0',
+        value: {
+            top: '0',
+            right: '0',
+            bottom: '0',
+            left: '0'
+        },
         options: null,
         group: 'style',
         showUnitsDropdown: true,
         showAllSides: true,
     },
     'margin': {
-        type: 'text',
+        type: 'multiside',
         label: 'Margin',
-        value: '0',
+        value: {
+            top: '0',
+            right: '0',
+            bottom: '0',
+            left: '0'
+        },
         options: null,
         group: 'style',
         showUnitsDropdown: true,
@@ -195,6 +215,145 @@ const settings = {
     }
 }
 
+function settingContainerHTML(content, isMultiSide = false, showUnitsDropdown = false, label) {
+    return `
+        <div class="setting-container ${isMultiSide ? 'multiside' : ''}">
+            <div class="setting-label-container">
+                <label for="text-${label}">${label}</label>
+                ${isMultiSide || showUnitsDropdown ? unitsDropdownSettingHTML() : ''}
+            </div>
+            ${content}
+        </div>
+    `;
+}
+
+function createTextarea(setting) {
+    const value = getWidgetCurrentValue(setting.group, setting.settingAction) || setting.value;
+
+    return `
+        <div class="setting">
+            <textarea name="textarea-${setting.settingAction}" id="textarea-${setting.settingAction}" data-setting-action="${setting.settingAction}" data-setting-group="${setting.group}">${value}</textarea>
+        </div>
+    `;
+}
+
+function createNumberInput(setting) {
+    const value = getWidgetCurrentValue(setting.group, setting.settingAction) || setting.value;
+    return `
+        <div class="setting">
+            <input type="number" min="0" name="number-${setting.settingAction}" id="number-${setting.settingAction}" data-setting-action="${setting.settingAction}" value="${value}" data-setting-group="${setting.group}">
+        </div>
+    `;
+}
+
+function createDropdown(setting) {
+    const value = getWidgetCurrentValue(setting.group, setting.settingAction) || setting.value;
+    return `
+        <div class="setting">
+            <select name="dropdown-${setting.settingAction}" id="dropdown-${setting.settingAction}" data-setting-action="${setting.settingAction}" data-setting-group="${setting.group}">
+                ${setting.options.map(option => `<option value="${option.value}" ${option.value === value ? 'selected' : ''}>${option.label}</option>`)}
+            </select>
+        </div>
+    `;
+}
+
+function createColorInput(setting) {
+    const value = getWidgetCurrentValue(setting.group, setting.settingAction) || setting.value;
+    return `
+        <div class="setting">
+            <input type="color" name="color-${setting.settingAction}" id="color-${setting.settingAction}" data-setting-action="${setting.settingAction}" value="${value}" data-setting-group="${setting.group}">
+        </div>
+    `;
+}
+
+function createTextInput(setting) {
+    const value = getWidgetCurrentValue(setting.group, setting.settingAction) || setting.value;
+    return `
+        <div class="setting">
+            <input type="text" name="text-${setting.settingAction}" id="text-${setting.settingAction}" data-setting-action="${setting.settingAction}" value="${value}" data-setting-group="${setting.group}">
+        </div>
+    `;
+}
+
+function createMultisideInput(setting) {
+
+    const topValue = getWidgetCurrentValue(setting.group, setting.settingAction) ? getWidgetCurrentValue(setting.group, setting.settingAction).top : setting.value.top;
+    const rightValue = getWidgetCurrentValue(setting.group, setting.settingAction) ? getWidgetCurrentValue(setting.group, setting.settingAction).right : setting.value.right;
+    const bottomValue = getWidgetCurrentValue(setting.group, setting.settingAction) ? getWidgetCurrentValue(setting.group, setting.settingAction).bottom : setting.value.bottom;
+    const leftValue = getWidgetCurrentValue(setting.group, setting.settingAction) ? getWidgetCurrentValue(setting.group, setting.settingAction).left : setting.value.left;
+    
+    const selectors = setting.selectors || [setting.settingAction + 'Top', setting.settingAction + 'Right', setting.settingAction + 'Bottom', setting.settingAction + 'Left']
+
+    return `
+        <div class="setting">
+            <div class="multiside-setting-container">
+                <input type="number" min="0" id="${setting.settingAction}-top" data-setting-action="${selectors[0]}" data-setting-group="${setting.group}" value="${topValue}">
+                <label for="${setting.settingAction}-top">Top</label>
+            </div>
+            <div class="multiside-setting-container">
+                <input type="number" min="0" id="${setting.settingAction}-right" data-setting-action="${selectors[1]}" data-setting-group="${setting.group}" value="${rightValue}">
+                <label for="${setting.settingAction}-right">Right</label>
+            </div>
+            <div class="multiside-setting-container">
+                <input type="number" min="0" id="${setting.settingAction}-bottom" data-setting-action="${selectors[2]}" data-setting-group="${setting.group}" value="${bottomValue}">
+                <label for="${setting.settingAction}-bottom">Bottom</label>
+            </div>
+            <div class="multiside-setting-container">
+                <input type="number" min="0" id="${setting.settingAction}-left" data-setting-action="${selectors[3]}" data-setting-group="${setting.group}" value="${leftValue}">
+                <label for="${setting.settingAction}-left">Left</label>
+            </div>
+            <div class="multiside-setting-container">
+                <button type="button" class="eo-sidebar-settings-link-values-btn" data-setting-action="${setting.settingAction}">L</button>
+                <label for="${setting.settingAction}-left">Link</label>
+            </div>
+        </div>
+    `;
+}
+
+function getSettingHTML(settingAction) {
+    const setting = getSetting(settingAction);
+    const settingType = setting.type;
+    const showUnitsDropdown = setting.showUnitsDropdown;
+
+    switch(settingType) {
+        case 'textarea':
+            return settingContainerHTML(createTextarea(setting), false, showUnitsDropdown, setting.label);
+        case 'number':
+            return settingContainerHTML(createNumberInput(setting), false, showUnitsDropdown, setting.label);
+        case 'dropdown':
+            return settingContainerHTML(createDropdown(setting), false, showUnitsDropdown, setting.label);
+        case 'color':
+            return settingContainerHTML(createColorInput(setting), false, showUnitsDropdown, setting.label);
+        case 'text':
+            return settingContainerHTML(createTextInput(setting), false, showUnitsDropdown, setting.label);
+        case 'multiside':
+            return settingContainerHTML(createMultisideInput(setting), true, showUnitsDropdown, setting.label);
+        default:
+            console.error('No setting type defined');
+            return '';
+    }
+}
+
+function unitsDropdownSettingHTML() {
+
+    const units = ['px', 'em', 'rem', '%', 'vw', 'vh'];
+
+    return `
+    <div class="units-dropdown">
+        <select name="units" id="units">
+            ${units.map((unit) => `<option value="${unit}">${unit}</option>`)}
+        </select>
+    </div>`;
+
+}
+
+
+function getSetting(settingAction) {
+
+    return {settingAction, ...settings[settingAction]};
+
+}
+
 displayWidgets();
 
 document.addEventListener('click', (e) => {
@@ -216,19 +375,31 @@ document.addEventListener('click', (e) => {
         
     }
 
+    if(e.target.matches('.eo-container')) {
+        const container = e.target;
+        selectElement(container);
+    }
+
     if(e.target.matches('.eo-container-controls [data-action="drag"]')) {
         const container = e.target.closest('.eo-container');
-        componentCurrentlyBeingEdited = container;
-        setSidebarView('settings');
-        buildWidgetSettingsMenu(container);
+        selectElement(container);
     }
 
     if(e.target.matches('.edit-component-btn')) {
         const component = e.target.closest('.eo-component');
-        componentCurrentlyBeingEdited = component.querySelector('.eo-component-content *');
-        setSidebarView('settings');
-        buildWidgetSettingsMenu(component);
+        selectElement(component.children[0]);        
     }
+    if(e.target.matches('.eo-component')) {
+        const component = e.target;
+        selectElement(component.children[0]);
+    }
+
+
+
+    if(e.target.matches('.eo-sidebar-settings-link-values-btn')) {
+        e.target.classList.toggle('linked');
+    }
+
 })
 
 document.addEventListener('mousedown', (e) => {
@@ -293,8 +464,8 @@ document.addEventListener('dragend', (e) => {
 document.addEventListener('dragover', (e) => {
 
     const currentlyDragging = document.querySelector('.dragging');
-    const isDraggingContainer = currentlyDragging.matches('.eo-container');
-    const isDraggingComponent = currentlyDragging.matches('.eo-component');
+    const isDraggingContainer = currentlyDragging?.matches('.eo-container');
+    const isDraggingComponent = currentlyDragging?.matches('.eo-component');
     
     if(e.target.matches('.eo-page-container') && isDraggingContainer) {
         
@@ -336,7 +507,7 @@ document.addEventListener('dragover', (e) => {
     }
     
 
-    if(e.target.matches('.eo-component-content') && (isDraggingComponent || isDraggingContainer)) {
+    if(e.target.matches('.eo-component') && (isDraggingComponent || isDraggingContainer)) {
 
         
         e.preventDefault();
@@ -363,7 +534,7 @@ document.addEventListener('dragover', (e) => {
 document.addEventListener('dragenter', (e) => {
 
     const currentlyDragging = document.querySelector('.dragging');
-    const isDraggingComponent = currentlyDragging.matches('.eo-component');
+    const isDraggingComponent = currentlyDragging?.matches('.eo-component');
 
     if(e.target.matches('.eo-container') && isDraggingComponent) {
         e.target.classList.add('dragover');
@@ -373,7 +544,7 @@ document.addEventListener('dragenter', (e) => {
 document.addEventListener('dragleave', (e) => {
     
     const currentlyDragging = document.querySelector('.dragging');
-    const isDraggingComponent = currentlyDragging.matches('.eo-component');
+    const isDraggingComponent = currentlyDragging?.matches('.eo-component');
 
     if(e.target.matches('.eo-container') && isDraggingComponent) {
         e.target.classList.remove('dragover');
@@ -528,7 +699,7 @@ function getFirstContainer() {
 
 document.addEventListener('click', (e) => {
 
-    if(e.target.matches('.add-component-btn') || e.target.matches('.eo-container')) {    
+    if(e.target.matches('.add-component-btn')) {    
         const container = e.target.closest('.eo-container');
         selectedContainer = container;
         if(isSidebarHidden()) {
@@ -551,8 +722,10 @@ document.addEventListener('click', (e) => {
         } else if(componentType === 'container' && !containerToAppend) {
             mainContainer.appendChild(addContainer());
             return;
-        } 
-    
+        } else if(componentType === 'container' && containerToAppend) {
+            containerToAppend = containerToAppend.appendChild(addContainer());
+            return
+        }
         let componentContainer = containerToAppend;
         const component = addComponent(componentType);
         componentContainer.appendChild(component);
@@ -575,10 +748,8 @@ function addComponent(type) {
 function componentBoilerplate(type, content) {
 
     return `
-        <div class="eo-component-content">
-            ${content}
-            <button type="button" class="edit-component-btn"><i class="fas fa-edit"></i></button>
-        </div>
+        ${content}
+        <button type="button" class="edit-component-btn"><i class="fas fa-edit"></i></button>
     `;
 
 }
@@ -628,14 +799,15 @@ function findComponentBelow(mouseY, container) {
 }
 
 function getComponentType(component) {
-    return component.getAttribute('data-type');
+    return component.getAttribute('data-type') ? component.getAttribute('data-type') : component.parentElement.getAttribute('data-type');
 }
+
+
 
 function buildWidgetSettingsMenu(component) {
 
     const type = getComponentType(component);
     const settings = getWidgetSettings(type);
-    console.log(settings);
     const sidebarSettingsSelector = '.eo-sidebar-settings-tab-content#[tab]';
     const contentSettings = settings.content;
     let contentSettingsHTML = '';
@@ -643,15 +815,17 @@ function buildWidgetSettingsMenu(component) {
     let styleSettingsHTML = '';
 
     Object.keys(contentSettings).forEach((settingAction) => {
-        const setting = contentSettings[settingAction];
-        const settingHTML = buildSetting(settingAction, setting, component);
+
+        
+        const settingHTML = getSettingHTML(settingAction);
         contentSettingsHTML += settingHTML;
     })
 
     Object.keys(styleSettings).forEach((settingAction) => {
-        const setting = styleSettings[settingAction];
-        const settingHTML = buildSetting(settingAction, setting, component);
+        
+        const settingHTML = getSettingHTML(settingAction);
         styleSettingsHTML += settingHTML;
+
     })
 
     const contentTab = sidebarSettingsSelector.replace('[tab]', 'content');
@@ -661,33 +835,7 @@ function buildWidgetSettingsMenu(component) {
     document.querySelector(styleTab).innerHTML = styleSettingsHTML;
 }
 
-function buildSetting(settingAction, setting, component) {
-
-    const settingGroup = setting.group;
-    const settingType = setting.type;
-    const settingLabel = setting.label;
-    const settingValue = getWidgetCurrentValue(settingAction) ? getWidgetCurrentValue(settingAction) : setting.value;
-    const settingOptions = setting.options; 
-
-    switch(settingType) {
-        case 'textarea':
-            return buildTextareaSetting(settingAction, settingLabel, settingValue, settingGroup);
-        case 'number':
-            return buildNumberSetting(settingAction, settingLabel, settingValue, settingGroup);
-        case 'dropdown':
-            return buildDropdownSetting(settingAction, settingLabel, settingValue, settingOptions, settingGroup);
-        case 'color':
-            return buildColorSetting(settingAction, settingLabel, settingValue, settingGroup);
-        default:
-            return buildTextareaSetting(settingAction, settingLabel, settingValue, settingGroup);
-    
-    }
-
-}
-
-function getWidgetCurrentValue(settingAction) {
-
-    const settingGroup = settings[settingAction].group;
+function getWidgetCurrentValue(settingGroup, settingAction) {
 
     switch(settingGroup) {
         case 'content':
@@ -705,53 +853,8 @@ function getWidgetCurrentValue(settingAction) {
 
 
 
-function buildTextareaSetting(action, label, value, group) {
 
-    return `
-        <label for="textarea-${action}">${label}</label>
-        <textarea name="textarea-${action}" id="textarea-${action}" data-setting-action="${action}" data-setting-group="${group}">${value}</textarea>
-    `;
 
-}
-
-function buildNumberSetting(action, label, value, group) {
-
-    return `
-        <label for="number-${action}">${label}</label>
-        <input type="number" name="number-${action}" id="number-${action}" data-setting-action="${action}" value="${value}" data-setting-group="${group}">
-    `;
-
-}
-
-function buildDropdownSetting(action, label, value, options, group) {
-
-    let optionsHTML = '';
-   
-    Object.keys(options).forEach((option) => {
-        if(options[option].value === value) {
-            optionsHTML += `<option value="${options[option].value}" selected>${options[option].label}</option>`;
-            return;
-        }
-        optionsHTML += `<option value="${options[option].value}">${options[option].label}</option>`;
-    })
-
-    return `
-        <label for="dropdown-${action}">${label}</label>
-        <select name="dropdown-${action}" id="dropdown-${action}" data-setting-action="${action}" data-setting-group="${group}">
-            ${optionsHTML}
-        </select>
-    `;
-
-}
-
-function buildColorSetting(action, label, value, group) {
-
-    return `
-        <label for="color-${action}">${label}</label>
-        <input type="color" name="color-${action}" id="color-${action}" data-setting-action="${action}" value="${value}" data-setting-group="${group}">
-    `;
-
-}
 
 function changeTab(tabId) {
 
@@ -798,30 +901,98 @@ function setSidebarView(view) {
 
 document.addEventListener('input', (e) => {
   
-    const settingAction = e.target.getAttribute('data-setting-action');
+    let settingAction = e.target.getAttribute('data-setting-action');
     const settingGroup = e.target.getAttribute('data-setting-group');
-    if(!settingAction) {
-        return;
+
+    if(settingAction) {
+        
+        const valuesAreLinked = e.target.closest('.setting-container').querySelector('.eo-sidebar-settings-link-values-btn')?.classList.contains('linked');
+
+        if(valuesAreLinked) { 
+            // if the values are linked, update all the values. Send an object with all the values to the update function
+            const allSettings = e.target.closest('.setting-container').querySelectorAll('[data-setting-action]');
+            settingAction = {}
+            allSettings.forEach((setting) => {
+                setting.value = e.target.value;
+                settingAction[setting.getAttribute('data-setting-action')] = setting.value;
+            })
+
+
+        }
+
+        const unit = e.target.closest('.setting-container').querySelector('#units');
+        const unitValue = unit ? unit.value : null;
+        
+        switch(settingGroup) {
+            case 'style':
+                updateStyle(settingAction, e.target.value, unitValue);
+                break;
+            case 'content':
+                updateContent(settingAction, e.target.value);
+                break;
+            case 'attribute':
+                updateAttribute(settingAction, e.target.value);
+                break;
+        }
     }
 
-    switch(settingGroup) {
-        case 'style':
-            updateStyle(settingAction, e.target.value);
-            break;
-        case 'content':
-            updateContent(settingAction, e.target.value);
-            break;
-        case 'attribute':
-            updateAttribute(settingAction, e.target.value);
-            break;
+    if(e.target.matches('#units')) {
+        const closestSettingContainer = e.target.closest('.setting-container');
+        let settingAction = closestSettingContainer.querySelector('[data-setting-action]').getAttribute('data-setting-action');
+        const settingGroup = closestSettingContainer.querySelector('[data-setting-group]').getAttribute('data-setting-group');
+        const unitValue = e.target.value;
+
+        if(settingAction) {
+
+            const valuesAreLinked = e.target.closest('.setting-container').querySelector('.eo-sidebar-settings-link-values-btn')?.classList.contains('linked');
+
+            if(valuesAreLinked) {
+                // if the values are linked, update all the values. Send an object with all the values to the update function
+                const allSettings = e.target.closest('.setting-container').querySelectorAll('[data-setting-action]');
+                settingAction = {}
+                allSettings.forEach((setting) => {
+                    setting.value = allSettings[0].value;
+                    settingAction[setting.getAttribute('data-setting-action')] = setting.value;
+                })
+            }
+            
+            switch(settingGroup) {
+                case 'style':
+                    updateStyle(settingAction, closestSettingContainer.querySelector('[data-setting-action]').value, unitValue);
+                    break;
+                case 'content':
+                    updateContent(settingAction, closestSettingContainer.querySelector('[data-setting-action]').value);
+                    break;
+                case 'attribute':
+                    updateAttribute(settingAction, closestSettingContainer.querySelector('[data-setting-action]').value);
+                    break;
+            }
+        }
     }
+
 })
+
     
 
 
-function updateStyle(setting, value) {
+function updateStyle(setting, value, unit = null) {
+
+    if(unit) {
+        value += unit;
+    }
    
-    componentCurrentlyBeingEdited.style[setting] = value.toString();
+    // check if the setting is an object
+    if(typeof setting === 'object') {
+        Object.keys(setting).forEach((key) => {
+            if(unit) {
+                setting[key] += unit;
+            }
+            componentCurrentlyBeingEdited.style[key] = setting[key]
+        })
+    } else {
+        componentCurrentlyBeingEdited.style[setting] = value.toString();
+    }
+
 }
 
 function updateContent(setting, value) {
@@ -834,11 +1005,11 @@ function updateAttribute(setting, value) {
 
 function getStyle(setting) {
 
-    if(setting === 'color') {
-        return rgbToHex(componentCurrentlyBeingEdited.style[setting]);
+    if(setting === 'color' || setting === 'backgroundColor') {
+        return cleanSettingValue(rgbToHex(componentCurrentlyBeingEdited.style[setting]));
     }
 
-    return componentCurrentlyBeingEdited.style[setting];
+    return cleanSettingValue(componentCurrentlyBeingEdited.style[setting]);
 }
 
 function getContent(setting) {
@@ -849,6 +1020,15 @@ function getAttribute(setting) {
     return componentCurrentlyBeingEdited.getAttribute(setting);
 }
 
+function cleanSettingValue(value) {
+    const units = ['px', 'em', 'rem', '%', 'vw', 'vh'];
+
+    units.forEach((unit) => {
+        value = value.replace(unit, '');
+    })
+
+    return value;
+}
 
 
 function rgbToHex(rgb) {
@@ -922,4 +1102,33 @@ function displayWidgets() {
     })  
 
     widgetsContainer.innerHTML = widgetsHTML;
+}
+
+document.addEventListener('keydown', (e) => {
+    if(e.key === 'Delete' && componentCurrentlyBeingEdited) {
+        removeComponent();
+    }
+})
+
+function removeComponent() {
+    componentCurrentlyBeingEdited.remove();
+    componentCurrentlyBeingEdited = null;
+    setSidebarView('elements');
+    checkIfAddFirstButtonNeeded();
+}
+
+function selectElement(element) {
+    componentCurrentlyBeingEdited = element;
+    setSelection(element);
+    setSidebarView('settings');
+    buildWidgetSettingsMenu(element);
+}
+
+function setSelection(element) {
+    const selectedElements = document.querySelectorAll('[data-selected="true"]');
+    selectedElements.forEach((selectedElement) => {
+        selectedElement.removeAttribute('data-selected');
+    })
+
+    element.setAttribute('data-selected', true);
 }

@@ -1,114 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vanilla JS Drag and Drop</title>
-  <style>
-    #container {
-      display: flex;
-      flex-direction: column;
-      gap: 100px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .draggable {
-      width: 100%;
-      min-height: 100px;
-      padding: 10px;
-      background-color: #3498db;
-      color: #fff;
-      margin-bottom: 10px;
-      cursor: move;
-      transition: transform 0.2s;
-    }
+        .padding-section {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
 
-    .draggable h2 {
-      margin: 0;
-      font-size: 18px;
-    }
+        .input-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
 
-    .draggable img {
-      max-width: 100%;
-      height: auto;
-      display: block;
-      margin-top: 10px;
-    }
+        .input-group label {
+            flex: 1;
+            margin-right: 10px;
+        }
 
-    .dragging {
-      opacity: 0.5;
-    }
-  </style>
+        .input-group input,
+        .input-group select {
+            flex: 2;
+            padding: 8px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-  <div id="container"></div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      let draggedElement = null;
+    <div class="padding-section">
+        <div class="input-group">
+            <label for="top-padding">Top Padding:</label>
+            <input type="number" id="top-padding" placeholder="Enter value">
+            <select>
+                <option value="px">px</option>
+                <option value="%">%</option>
+            </select>
+        </div>
 
-      function createDraggableElement(content) {
-        const element = document.createElement('div');
-        element.classList.add('draggable');
-        element.innerHTML = content;
-        element.draggable = true;
+        <div class="input-group">
+            <label for="right-padding">Right Padding:</label>
+            <input type="number" id="right-padding" placeholder="Enter value">
+            <select>
+                <option value="px">px</option>
+                <option value="%">%</option>
+            </select>
+        </div>
 
-        element.addEventListener('dragstart', function(event) {
-          draggedElement = element;
-          // Highlight the dragged element
-          element.style.opacity = '0.5';
-          // Add a class for styling during dragging
-          element.classList.add('dragging');
-        });
+        <div class="input-group">
+            <label for="bottom-padding">Bottom Padding:</label>
+            <input type="number" id="bottom-padding" placeholder="Enter value">
+            <select>
+                <option value="px">px</option>
+                <option value="%">%</option>
+            </select>
+        </div>
 
-        element.addEventListener('dragend', function() {
-          // Remove the highlight from the dragged element
-          element.style.opacity = '1';
-          // Remove the dragging class
-          element.classList.remove('dragging');
-          // Reset transform property
-          element.style.transform = 'translateY(0)';
-        });
+        <div class="input-group">
+            <label for="left-padding">Left Padding:</label>
+            <input type="number" id="left-padding" placeholder="Enter value">
+            <select>
+                <option value="px">px</option>
+                <option value="%">%</option>
+            </select>
+        </div>
 
-        document.getElementById('container').appendChild(element);
-      }
+        <button onclick="linkValues()">Link Values</button>
+    </div>
 
-      // Create initial draggable elements
-      createDraggableElement('<h2>Heading 1</h2>');
-      createDraggableElement('<p>Paragraph 1</p>');
-      createDraggableElement('<div><img src="https://via.placeholder.com/150" alt="Image 1"></div>');
-      createDraggableElement('<h2>Heading 2</h2>');
-      createDraggableElement('<p>Paragraph 2</p>');
-      createDraggableElement('<div><img src="https://via.placeholder.com/150" alt="Image 2"></div>');
-
-      const container = document.getElementById('container');
-
-      container.addEventListener('dragover', function(event) {
-        event.preventDefault();
-        const draggingRect = draggedElement.getBoundingClientRect();
-        const mouseY = event.clientY;
-        const isBefore = mouseY < draggingRect.top + draggingRect.height / 2;
-
-        // Calculate the translateY property based on the mouse position
-        draggedElement.style.transform = `translateY(${isBefore ? '-100%' : '100%'})`;
-
-        const afterElement = isBefore ? draggedElement.previousElementSibling : draggedElement;
-        if (afterElement == null) {
-          container.appendChild(draggedElement);
-        } else {
-          container.insertBefore(draggedElement, afterElement);
+    <script>
+        function linkValues() {
+            // Add your logic to link values together
+            console.log("Values linked!");
         }
-      });
+    </script>
 
-      container.addEventListener('drop', function() {
-        // Reset styles after drop
-        draggedElement = null;
-        document.querySelectorAll('.draggable').forEach(element => {
-          element.classList.remove('dragging');
-          element.style.opacity = '1';
-          element.style.transform = 'translateY(0)';
-        });
-      });
-    });
-  </script>
 </body>
 </html>

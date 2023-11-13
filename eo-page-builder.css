@@ -179,26 +179,24 @@ i {
     display: flex;
 }
 
-.eo-container  .eo-component .eo-component-content {
+.eo-container .eo-component {
     position: relative;
-    width: 100%;
-    height: 100%;
 }
 
-.drag-in-process  .eo-component .eo-component-content * {
+.eo-component *:not(.edit-component-btn) {
     pointer-events: none;
 }
 
-.eo-container  .eo-component .eo-component-content:hover{
+.eo-container  .eo-component:hover{
     border: 2px solid #1890ff;
 }
 
 
-.eo-container  .eo-component .eo-component-content .edit-component-btn {
+.eo-container  .eo-component .edit-component-btn {
     display: none;
 }
 
-.eo-container  .eo-component .eo-component-content:hover .edit-component-btn {
+.eo-container  .eo-component:hover .edit-component-btn {
     display: flex;
     position: absolute;
     top: 50%;
@@ -218,7 +216,7 @@ i {
     padding: 15px;
 }
 
-.eo-container  .eo-component .eo-component-content:hover .edit-component-btn:hover {
+.eo-container  .eo-component:hover .edit-component-btn:hover {
     background-color: #fff;
     color: #1890ff;
     border: 1px solid #1890ff;
@@ -433,4 +431,97 @@ i {
 .eo-button {
     outline: none;
     border: none;
+}
+
+
+.setting-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.setting-container .setting-label-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.setting-container .units-dropdown {
+    display: flex;
+    padding: 5px;
+}
+
+.setting-container:not(.multiside) .units-dropdown select {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    outline: none;
+    resize: none;
+}
+
+.setting-container:not(.multiside) .setting {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.setting-container.multiside .setting {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.setting-container .multiside-setting-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: calc(100% / 6);  
+}
+
+.setting-container .multiside-setting-container label {
+    font-size: 12px;
+}
+
+.setting-container .multiside-setting-container input {
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    outline: none;
+    resize: none;
+}
+
+.setting-container .multiside-setting-container .eo-sidebar-settings-link-values-btn {
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    outline: none;
+    resize: none;
+    cursor: pointer;
+    transition: all ease-in-out 0.3s;
+}
+
+.setting-container .multiside-setting-container .eo-sidebar-settings-link-values-btn:hover {
+    background-color: #91d5ff;
+    color: #fff;
+}
+
+.setting-container .multiside-setting-container .eo-sidebar-settings-link-values-btn.linked {
+    background-color: #91d5ff;
+    color: #fff;
+}
+
+.setting-container .multiside-setting-container .eo-sidebar-settings-link-values-btn.linked:hover {
+    background-color: #e6f7ff;
+    color: #1890ff;
+}
+
+.eo-container[data-selected="true"],
+.eo-component[data-selected="true"] {
+    border: 2px solid #1890ff;
 }
