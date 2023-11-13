@@ -15,12 +15,12 @@ defineNewWidget('Image', 'fas fa-image', 'image', {
 
 defineNewWidget('Container', 'fas fa-box', 'container', {
     content: ['width', 'minHeight', 'flexDirection', 'justifyContent', 'alignItems', 'flexWrap', 'gap'],
-    style: ['backgroundColor', 'border', 'borderRadius', 'padding', 'margin']
+    style: ['backgroundColor', 'borderStyle', 'borderRadius', 'padding', 'margin']
 }, 'container');
 
 defineNewWidget('Button', 'fas fa-link', 'button', {
     content: ['innerText', 'href'],
-    style: ['fontSize', 'fontFamily', 'color', 'backgroundColor', 'borderStyle', 'borderWidth', 'borderRadius', 'padding', 'margin']
+    style: ['fontSize', 'fontWeight', 'fontFamily', 'width', 'height', 'color', 'backgroundColor', 'borderStyle', 'borderWidth', 'borderRadius', 'padding', 'margin']
 }, 'button');
 
 const components = {
@@ -73,9 +73,9 @@ const settings = {
         group: 'content'
     },
     'fontSize': {
-        type: 'number',
+        type: 'text',
         label: 'Font Size',
-        value: '16',
+        value: '16px',
         options: null,
         group: 'style'
     },
@@ -84,6 +84,13 @@ const settings = {
         label: 'Font Family',
         value: 'Arial',
         options: [{value: 'Arial', label: 'Arial'}, {value: 'Helvetica', label: 'Helvetica'}, {value: 'Times New Roman', label: 'Times New Roman'}, {value: 'Times', label: 'Times'}, {value: 'Courier New', label: 'Courier New'}, {value: 'Courier', label: 'Courier'}, {value: 'Verdana', label: 'Verdana'}, {value: 'Georgia', label: 'Georgia'}, {value: 'Palatino', label: 'Palatino'}, {value: 'Garamond', label: 'Garamond'}, {value: 'Bookman', label: 'Bookman'}, {value: 'Comic Sans MS', label: 'Comic Sans MS'}, {value: 'Trebuchet MS', label: 'Trebuchet MS'}, {value: 'Arial Black', label: 'Arial Black'}, {value: 'Impact', label: 'Impact'}],
+        group: 'style'
+    },
+    'fontWeight': {
+        type: 'dropdown',
+        label: 'Font Weight',
+        value: 'normal',
+        options: [{value: '100', label: '100'}, {value: '200', label: '200'}, {value: '300', label: '300'}, {value: '400', label: '400'}, {value: '500', label: '500'}, {value: '600', label: '600'}, {value: '700', label: '700'}, {value: '800', label: '800'}, {value: '900', label: '900'}],
         group: 'style'
     },
     'color': {
