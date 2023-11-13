@@ -239,8 +239,10 @@ function createTextarea(setting) {
 
 function createNumberInput(setting) {
     const value = getWidgetCurrentValue(setting.group, setting.settingAction) || setting.value;
+
     return `
-        <div class="setting">
+        <div class="setting number-setting">
+            <input type="range" min="0" max="1000" name="number-${setting.settingAction}" id="number-${setting.settingAction}" data-setting-action="${setting.settingAction}" value="${value}" data-setting-group="${setting.group}">
             <input type="number" min="0" name="number-${setting.settingAction}" id="number-${setting.settingAction}" data-setting-action="${setting.settingAction}" value="${value}" data-setting-group="${setting.group}">
         </div>
     `;
@@ -276,13 +278,14 @@ function createTextInput(setting) {
 }
 
 function createMultisideInput(setting) {
-
-    const topValue = getWidgetCurrentValue(setting.group, setting.settingAction) ? getWidgetCurrentValue(setting.group, setting.settingAction).top : setting.value.top;
-    const rightValue = getWidgetCurrentValue(setting.group, setting.settingAction) ? getWidgetCurrentValue(setting.group, setting.settingAction).right : setting.value.right;
-    const bottomValue = getWidgetCurrentValue(setting.group, setting.settingAction) ? getWidgetCurrentValue(setting.group, setting.settingAction).bottom : setting.value.bottom;
-    const leftValue = getWidgetCurrentValue(setting.group, setting.settingAction) ? getWidgetCurrentValue(setting.group, setting.settingAction).left : setting.value.left;
     
     const selectors = setting.selectors || [setting.settingAction + 'Top', setting.settingAction + 'Right', setting.settingAction + 'Bottom', setting.settingAction + 'Left']
+
+    const topValue = getWidgetCurrentValue(setting.group, setting.settingAction + 'Top') ? getWidgetCurrentValue(setting.group, setting.settingAction + 'Top') : setting.value.top;
+    const rightValue = getWidgetCurrentValue(setting.group, setting.settingAction + 'Right') ? getWidgetCurrentValue(setting.group, setting.settingAction + 'Right') : setting.value.right;
+    const bottomValue = getWidgetCurrentValue(setting.group, setting.settingAction + 'Bottom') ? getWidgetCurrentValue(setting.group, setting.settingAction + 'Bottom') : setting.value.bottom;
+    const leftValue = getWidgetCurrentValue(setting.group, setting.settingAction + 'Left') ? getWidgetCurrentValue(setting.group, setting.settingAction + 'Left') : setting.value.left;    
+
 
     return `
         <div class="setting">
@@ -378,11 +381,13 @@ document.addEventListener('click', (e) => {
     if(e.target.matches('.eo-container')) {
         const container = e.target;
         selectElement(container);
+        selectedContainer = container;
     }
 
     if(e.target.matches('.eo-container-controls [data-action="drag"]')) {
         const container = e.target.closest('.eo-container');
         selectElement(container);
+        selectedContainer = container;
     }
 
     if(e.target.matches('.edit-component-btn')) {
@@ -562,12 +567,30 @@ function addContainer() {
         <div class="eo-container-controls">
             <button type="button" data-action="add-container"><i class="fas fa-plus"></i></button>
             <button type="button" data-action="drag"><i class="fas fa-arrows-alt"></i></button>
+            <button type="button" data-action="copy"><i class="fas fa-copy"></i></button>
             <button type="button" data-action="remove"><i class="fas fa-trash"></i></button>
         </div>
         <button type="button" class="add-component-btn"><i class="fas fa-plus"></i></button>
     `;
 
     return container;
+
+}
+
+function copyContainer(container) {
+
+    const containerToCopy = container.cloneNode(true);
+    const containerId = getNewContainerId();
+    containerToCopy.setAttribute('data-id', containerId);
+    containerToCopy.querySelectorAll('.eo-component').forEach((component) => {
+        const componentId = getNewContainerId();
+        component.setAttribute('data-id', componentId);
+    })
+
+    mainContainer.appendChild(containerToCopy);
+    selectElement(containerToCopy);
+    checkIfAddFirstButtonNeeded();
+
 
 }
 
@@ -730,6 +753,11 @@ document.addEventListener('click', (e) => {
         const component = addComponent(componentType);
         componentContainer.appendChild(component);
         containerToAppend.classList.remove('empty');
+    }
+
+    if(e.target.matches('.eo-container [data-action="copy"]')) {
+        const container = e.target.closest('.eo-container');
+        copyContainer(container);
     }
 
 })
@@ -941,6 +969,8 @@ document.addEventListener('input', (e) => {
         let settingAction = closestSettingContainer.querySelector('[data-setting-action]').getAttribute('data-setting-action');
         const settingGroup = closestSettingContainer.querySelector('[data-setting-group]').getAttribute('data-setting-group');
         const unitValue = e.target.value;
+        const closestRangeInput = closestSettingContainer.querySelector('input[type="range"]');
+        closestRangeInput.max = unitValue === 'px' ? 1000 : 100;
 
         if(settingAction) {
 
@@ -968,6 +998,11 @@ document.addEventListener('input', (e) => {
                     break;
             }
         }
+    }
+
+    if(e.target.matches('.setting.number-setting input[type="range"]')) {
+        const closestNumberInput = e.target.closest('.setting.number-setting').querySelector('input[type="number"]');
+        closestNumberInput.value = e.target.value;
     }
 
 })
@@ -1006,10 +1041,10 @@ function updateAttribute(setting, value) {
 function getStyle(setting) {
 
     if(setting === 'color' || setting === 'backgroundColor') {
-        return cleanSettingValue(rgbToHex(componentCurrentlyBeingEdited.style[setting]));
+        return cleanSettingValue(rgbToHex(componentCurrentlyBeingEdited?.style[setting]));
     }
 
-    return cleanSettingValue(componentCurrentlyBeingEdited.style[setting]);
+    return cleanSettingValue(componentCurrentlyBeingEdited?.style[setting]);
 }
 
 function getContent(setting) {
@@ -1024,7 +1059,7 @@ function cleanSettingValue(value) {
     const units = ['px', 'em', 'rem', '%', 'vw', 'vh'];
 
     units.forEach((unit) => {
-        value = value.replace(unit, '');
+        value = value?.replace(unit, '');
     })
 
     return value;

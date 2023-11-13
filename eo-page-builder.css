@@ -5,23 +5,24 @@
 }
 
 body {
-    width: 100%;
-    height: 100%;
-    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    grid-template-rows: 100vh;
+    overflow: hidden;
 }
+
 
 .eo-page-container {
     width: 100%;
     height: 100%;
     background-color: #fff;
-    max-width: 1320px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 20px;
-    margin: 0 auto;
+    justify-content: flex-start;
+    padding: 40px;
     gap: 20px;
+    overflow-y: auto;
 }
 
 i {
@@ -38,14 +39,19 @@ i {
 }
 
 .eo-page-container .eo-page-add-first {
-    width: 100%;
-    height: 100%;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
     align-items: center;
-    border: 2px dashed #ccc;
+    justify-content: center;
     padding: 20px;
+    border: 2px dashed #ccc;
+    background-color: #fff;
+    color: #000;
+    cursor: pointer;
     transition: all ease-in-out 0.3s;
+    min-height: 100px;
+    width: 100%;
 }
 
 .eo-page-container .eo-page-add-first .add-first-btn {
@@ -70,13 +76,10 @@ i {
 
 .eo-container {
     width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    border: 2px dashed #ccc;
     position: relative;
     min-height: 100px;
-    padding: 10px;
+    margin: 0 auto;
 }
 
 .eo-container .add-component-btn {
@@ -84,13 +87,15 @@ i {
 }
 
 .eo-container.empty {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     border: 2px dashed #ccc;
-    padding: 20px;
+    background-color: #fff;
+    display: flex;
+    margin: 0 auto;
+    gap: 10px;
+    min-height: 100px;
+    width: 100%;
+    cursor: pointer;
+    transition: all ease-in-out 0.3s;
 }
 
 .eo-container.dragover {
@@ -103,8 +108,9 @@ i {
 }
 
 .eo-container.empty .add-component-btn {
+    margin: 0 auto;
     width: 50px;
-    height: 50px;
+    height: 100%;
     outline: none;
     color: lightgray;
     background-color: transparent;
@@ -136,6 +142,9 @@ i {
     margin-bottom: 10px;
     position: absolute;
     top: -2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
     background-color: #1890ff;
     padding: 5px;
     border-radius: 5px;
@@ -175,12 +184,14 @@ i {
 
 .eo-container  {
     width: 100%;
-    height: 100%;
+    min-height: 100px;
     display: flex;
 }
 
 .eo-container .eo-component {
     position: relative;
+    width: fit-content;
+    height: fit-content;
 }
 
 .eo-component *:not(.edit-component-btn) {
@@ -227,10 +238,25 @@ i {
 
 /* Sidebar */
 
-.eo-sidebar {
+/* .eo-sidebar {
     position: fixed;
     top: 0;
     left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    z-index: 999;
+    width: 300px;
+    height: 100%;
+    background-color: #001529;
+    color: #fff;
+    overflow-y: auto;
+    transition: all ease-in-out 0.3s;
+}
+ */
+.eo-sidebar {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -465,6 +491,18 @@ i {
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+
+.setting-container:not(.multiside) .setting.number-setting {
+    flex-direction: row;
+}
+
+.setting-container:not(.multiside) .setting.number-setting input[type="range"] {
+    width: 100%;
+}
+
+.setting-container:not(.multiside) .setting.number-setting input[type="number"] {
+    width: 60px;
 }
 
 .setting-container.multiside .setting {
