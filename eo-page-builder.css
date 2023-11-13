@@ -423,3 +423,8 @@ i {
 .eo-sidebar .eo-sidebar-settings .eo-sidebar-settings-tab-content textarea {
     resize: none;
 }
+
+.eo-button {
+    outline: none;
+    border: none;
+}

@@ -597,7 +597,7 @@ function imageComponentHTML() {
 function buttonComponentHTML() {
 
     return `
-        <button type="button">Button</button>
+        <button class="eo-button" type="button">Button</button>
     `;
 }
 
