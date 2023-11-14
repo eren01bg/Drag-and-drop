@@ -5,7 +5,7 @@ let widgets = [];
 
 defineNewWidget('Heading', 'fas fa-heading', 'text', {
     content: ['innerText', 'textAlign'],
-    style: ['fontSize', 'fontFamily', 'color', 'backgroundColor', 'borderStyle', 'borderWidth', 'borderRadius', 'padding', 'margin']
+    style: ['fontSize', 'fontFamily', 'fontWeight', 'color', 'backgroundColor', 'borderStyle', 'borderWidth', 'borderRadius', 'padding', 'margin']
 }, 'heading');
 
 defineNewWidget('Image', 'fas fa-image', 'image', {
@@ -87,7 +87,7 @@ const settings = {
         type: 'dropdown',
         label: 'Font Family',
         value: 'Arial',
-        options: [{value: 'Arial', label: 'Arial'}, {value: 'Helvetica', label: 'Helvetica'}, {value: 'Times New Roman', label: 'Times New Roman'}, {value: 'Times', label: 'Times'}, {value: 'Courier New', label: 'Courier New'}, {value: 'Courier', label: 'Courier'}, {value: 'Verdana', label: 'Verdana'}, {value: 'Georgia', label: 'Georgia'}, {value: 'Palatino', label: 'Palatino'}, {value: 'Garamond', label: 'Garamond'}, {value: 'Bookman', label: 'Bookman'}, {value: 'Comic Sans MS', label: 'Comic Sans MS'}, {value: 'Trebuchet MS', label: 'Trebuchet MS'}, {value: 'Arial Black', label: 'Arial Black'}, {value: 'Impact', label: 'Impact'}],
+        options: [{value: 'Arial', label: 'Arial'}, {value: 'Helvetica', label: 'Helvetica'}, {value: 'Times New Roman', label: 'Times New Roman'}, {value: 'Times', label: 'Times'}, {value: 'Courier New', label: 'Courier New'}, {value: 'Courier', label: 'Courier'}, {value: 'Verdana', label: 'Verdana'}, {value: 'Georgia', label: 'Georgia'}, {value: 'Palatino', label: 'Palatino'}, {value: 'Garamond', label: 'Garamond'}, {value: 'Bookman', label: 'Bookman'}, {value: 'Comic Sans MS', label: 'Comic Sans MS'}, {value: 'Trebuchet MS', label: 'Trebuchet MS'}, {value: 'Arial Black', label: 'Arial Black'}, {value: 'Impact', label: 'Impact'}, {value: 'Roboto', label: 'Roboto'}, {value: 'Open Sans', label: 'Open Sans'}, {value: 'Lato', label: 'Lato'}, {value: 'Montserrat', label: 'Montserrat'}, {value: 'Source Sans Pro', label: 'Source Sans Pro'}, {value: 'Helvetica Neue', label: 'Helvetica Neue'}, {value: 'Inter', label: 'Inter'}, {value: 'Noto Sans', label: 'Noto Sans'}],
         group: 'style'
     },
     'fontWeight': {
@@ -413,6 +413,10 @@ document.addEventListener('mousedown', (e) => {
         e.target.closest('.eo-container').setAttribute('draggable', true);
     }
 
+    if(e.target.matches('.eo-container')) {
+        e.target.setAttribute('draggable', true);
+    }
+
     if(e.target.matches('button.edit-component-btn')) {
         e.target.closest('.eo-component').setAttribute('draggable', true);
     }
@@ -427,6 +431,10 @@ document.addEventListener('mouseup', (e) => {
 
     if(e.target.matches('button.edit-component-btn')) {
         e.target.closest('.eo-component').setAttribute('draggable', false);
+    }
+
+    if(e.target.matches('.eo-container')) {
+        e.target.setAttribute('draggable', false);
     }
 
 })
@@ -456,15 +464,24 @@ document.addEventListener('dragend', (e) => {
         e.target.classList.remove('dragging');
         e.target.setAttribute('draggable', false);
         e.target.closest('.eo-container').classList.remove('dragover');
-
+        
         const containers = mainContainer.querySelectorAll('.eo-container');
         containers.forEach((container) => {
             checkIfContainerIsEmpty(container);
         })
+
+        
         
     }
 
 })
+
+function checkContainers() {
+    const containers = mainContainer.querySelectorAll('.eo-container');
+        containers.forEach((container) => {
+            checkIfContainerIsEmpty(container);
+    })
+}
 
 document.addEventListener('dragover', (e) => {
 
@@ -615,7 +632,7 @@ function checkIfAddFirstButtonNeeded() {
 
 function checkIfContainerIsEmpty(container) {
 
-    const components = container.querySelectorAll('.eo-component');
+    const components = container.querySelectorAll('.eo-component, .eo-container');
 
     if(components.length < 1) {
         container.classList.add('empty');
@@ -729,6 +746,7 @@ document.addEventListener('click', (e) => {
             showSidebar();
         }
         setSidebarView('elements');
+        
     }
 
 
@@ -742,23 +760,29 @@ document.addEventListener('click', (e) => {
         if(!containerToAppend && componentType !== 'container') {
             containerToAppend = addContainer();
             mainContainer.appendChild(containerToAppend);
+            checkContainers();
+            return;
         } else if(componentType === 'container' && !containerToAppend) {
             mainContainer.appendChild(addContainer());
+            checkContainers();
             return;
         } else if(componentType === 'container' && containerToAppend) {
             containerToAppend = containerToAppend.appendChild(addContainer());
+            checkContainers();
             return
         }
         let componentContainer = containerToAppend;
         const component = addComponent(componentType);
         componentContainer.appendChild(component);
-        containerToAppend.classList.remove('empty');
+        checkContainers();
     }
 
     if(e.target.matches('.eo-container [data-action="copy"]')) {
         const container = e.target.closest('.eo-container');
         copyContainer(container);
+        checkContainers();
     }
+
 
 })
 
@@ -1007,6 +1031,12 @@ document.addEventListener('input', (e) => {
 
 })
 
+function loadGoogleFont(font) {
+    const link = document.createElement('link');
+    link.href = `https://fonts.googleapis.com/css?family=${font.replace(' ', '+')}`;
+    link.rel = 'stylesheet';
+    document.head.appendChild(link);
+}
     
 
 
@@ -1022,9 +1052,17 @@ function updateStyle(setting, value, unit = null) {
             if(unit) {
                 setting[key] += unit;
             }
+           
+            if(key === 'fontFamily') {
+                loadGoogleFont(setting[key])
+            }
+            
             componentCurrentlyBeingEdited.style[key] = setting[key]
         })
     } else {
+        if(setting === 'fontFamily') {
+            loadGoogleFont(value)
+        }
         componentCurrentlyBeingEdited.style[setting] = value.toString();
     }
 
@@ -1167,3 +1205,5 @@ function setSelection(element) {
 
     element.setAttribute('data-selected', true);
 }
+
+
